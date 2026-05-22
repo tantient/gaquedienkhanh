@@ -1,0 +1,46 @@
+<svg width="820" height="280" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 280">
+  <!-- Transparent background -->
+
+  <!-- Decorative left frame block -->
+  <rect x="16" y="16" width="228" height="248" fill="#214830" rx="3"/>
+  <rect x="24" y="24" width="212" height="232" fill="none" stroke="#E98D0C" stroke-width="1.2"/>
+  <rect x="30" y="30" width="200" height="220" fill="none" stroke="#E98D0C" stroke-width="0.5" opacity="0.45"/>
+
+  <!-- Frame corner ornaments -->
+  <g stroke="#E98D0C" stroke-width="1" fill="none" opacity="0.7">
+    <polyline points="36,36 36,50 50,36"/>
+    <polyline points="224,36 224,50 210,36"/>
+    <polyline points="36,244 36,230 50,244"/>
+    <polyline points="224,244 224,230 210,244"/>
+  </g>
+
+  <!-- Frame: "Gà Quê" stacked on "Diên Khánh" -->
+  <text x="128" y="145" text-anchor="middle" fill="#F7F2E8" font-size="70" font-family="Georgia, 'Times New Roman', serif" font-weight="700" letter-spacing="-1">Gà Quê</text>
+  <!-- Thin separator line -->
+  <line x1="48" y1="165" x2="208" y2="165" stroke="#E98D0C" stroke-width="0.7" opacity="0.6"/>
+  <text x="128" y="205" text-anchor="middle" fill="#E98D0C" font-size="28" font-family="Georgia, 'Times New Roman', serif" letter-spacing="5">Diên Khánh</text>
+
+  <!-- Vertical divider -->
+  <line x1="270" y1="40" x2="270" y2="240" stroke="#214830" stroke-width="1" opacity="0.2"/>
+
+  <!-- Right side text block -->
+  <!-- Top ornament -->
+  <g opacity="0.5">
+    <line x1="295" y1="82" x2="440" y2="82" stroke="#E98D0C" stroke-width="0.8"/>
+    <circle cx="455" cy="82" r="2" fill="#E98D0C"/>
+    <circle cx="470" cy="82" r="2" fill="#E98D0C"/>
+    <line x1="485" y1="82" x2="800" y2="82" stroke="#E98D0C" stroke-width="0.8"/>
+  </g>
+
+  <!-- Main name large -->
+  <text x="295" y="180" fill="#214830" font-size="110" font-family="Georgia, 'Times New Roman', serif" font-weight="700" letter-spacing="-3">Gà Quê</text>
+
+  <!-- Bottom ornament + subtitle -->
+  <g opacity="0.5">
+    <line x1="295" y1="200" x2="450" y2="200" stroke="#E98D0C" stroke-width="0.8"/>
+    <circle cx="465" cy="200" r="2" fill="#E98D0C"/>
+    <circle cx="480" cy="200" r="2" fill="#E98D0C"/>
+    <line x1="495" y1="200" x2="800" y2="200" stroke="#E98D0C" stroke-width="0.8"/>
+  </g>
+  <text x="295" y="238" fill="#E98D0C" font-size="32" font-family="Georgia, 'Times New Roman', serif" letter-spacing="10">Diên Khánh</text>
+</svg>

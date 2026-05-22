@@ -1,0 +1,43 @@
+uploads = []
+
+[[generated]]
+id = "FJ-0b2sMvI09239nrxE98"
+uri = "file://attached_assets/fb_cover_1.png"
+type = "image"
+title = "fb-cover-grilled-chicken"
+
+[[generated]]
+id = "RmcNgVZ2cALR5eqoK2ydv"
+uri = "file://attached_assets/fb_cover_2.png"
+type = "image"
+title = "fb-cover-hotpot"
+
+[[outputs]]
+id = "qDXkIqhqigN0edGdd6Khv"
+uri = "file://attached_assets/fb_cover_1.png"
+type = "image"
+title = "Phiên bản 1 — Gà nướng than hoa"
+
+[[outputs]]
+id = "szaFFoLzvzezltXkwFiX5"
+uri = "file://attached_assets/fb_cover_2.png"
+type = "image"
+title = "Phiên bản 2 — Lẩu gà lá é"
+
+[[outputs]]
+id = "EozL9ZOe255zViD-WadFA"
+uri = "file://attached_assets/fb-cover-banner.jpg"
+type = "image"
+title = "Banner Cover FB — Gà Quê Diên Khánh (851×315px)"
+
+[[outputs]]
+id = "X1EHM96vxqmBEBWrxyTJg"
+uri = "file://attached_assets/fb-cover-final.jpg"
+type = "image"
+title = "Banner Cover FB — có dòng mô tả nhà hàng"
+
+[[outputs]]
+id = "qjsOESUKijN4CWK54oyP4"
+uri = "file://gaquedienkhanh-source.tar.gz"
+type = "unspecified"
+title = "Gà Quê Diên Khánh — Source Code"

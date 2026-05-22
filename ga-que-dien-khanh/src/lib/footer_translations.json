@@ -1,0 +1,52 @@
+{
+  "vi": {
+    "about_title": "Về Chúng Tôi",
+    "about_desc": "Gà Quê Diên Khánh - Vị nhà trong phố. Nơi lưu giữ hương vị gà ta đi bộ chính gốc trong không gian mộc mạc.",
+    "links_title": "Liên Kết Nhanh",
+    "contact_title": "Liên Hệ",
+    "address": "27 Tô Hiến Thành, Phường Nha Trang, Tỉnh Khánh Hoà",
+    "hours": "Thứ Hai - Chủ Nhật | 10:00 - 24:00",
+    "newsletter": "Đăng ký nhận ưu đãi và tin tức mới nhất từ Gà Quê Diên Khánh",
+    "button_map": "XEM BẢN ĐỒ & LIÊN HỆ"
+  },
+  "en": {
+    "about_title": "About Us",
+    "about_desc": "Gà Quê Diên Khánh — Home flavors in the city. Preserving the authentic taste of free-range chicken in a warm, rustic space.",
+    "links_title": "Quick Links",
+    "contact_title": "Contact",
+    "address": "27 To Hien Thanh, Nha Trang Ward, Khanh Hoa Province",
+    "hours": "Mon - Sun | 10:00 AM – Midnight",
+    "newsletter": "Subscribe for the latest news and offers from Gà Quê Diên Khánh",
+    "button_map": "VIEW MAP & CONTACT"
+  },
+  "kr": {
+    "about_title": "회사 소개",
+    "about_desc": "가 께 디엔 칸 - 도시 속의 고향 맛. 소박한 공간에서 정통 방목 닭고기의 맛을 보존합니다.",
+    "links_title": "빠른 링크",
+    "contact_title": "연락처",
+    "address": "나트랑 구, 27 Tô Hiến Thành, 칸호아성",
+    "hours": "월요일 - 일요일 | 10:00 - 자정",
+    "newsletter": "가 께 디엔 칸의 최신 소식과 혜택을 받아보세요",
+    "button_map": "지도 보기 및 연락처"
+  },
+  "ru": {
+    "about_title": "О нас",
+    "about_desc": "Гà Куê Зиен Кхань — вкус дома в городе. Сохраняем вкус домашней курицы в уютном деревенском пространстве.",
+    "links_title": "Ссылки",
+    "contact_title": "Контакты",
+    "address": "27 Tô Hiến Thành, квартал Нячанг, провинция Кханьхоа",
+    "hours": "Пн - Вс | 10:00 – 24:00",
+    "newsletter": "Подпишитесь на новости и акции Gà Quê Diên Khánh",
+    "button_map": "КАРТА И КОНТАКТЫ"
+  },
+  "zh": {
+    "about_title": "关于我们",
+    "about_desc": "Gà Quê Diên Khánh - 城里的家乡味。在淳朴的空间里保留正宗走地鸡的原汁原味。",
+    "links_title": "快速链接",
+    "contact_title": "联系我们",
+    "address": "27 Tô Hiến Thành街，芽庄坊，庆和省",
+    "hours": "周一 - 周日 | 10:00 – 深夜12:00",
+    "newsletter": "订阅获取 Gà Quê Diên Khánh 最新资讯和优惠",
+    "button_map": "查看地图与联系方式"
+  }
+}

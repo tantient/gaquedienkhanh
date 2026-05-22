@@ -1,0 +1,10 @@
+<svg width="720" height="420" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420">
+  <!-- Transparent background -->
+  <text x="360" y="222" text-anchor="middle" fill="#F7F2E8"
+    font-size="148" font-family="Georgia, 'Times New Roman', serif"
+    font-weight="700" letter-spacing="-3">Gà Quê</text>
+  <path d="M 170 248 Q 360 272 550 248" stroke="#F7F2E8" stroke-width="1.4" fill="none" opacity="0.32"/>
+  <text x="360" y="360" text-anchor="middle" fill="#E98D0C"
+    font-size="92" font-family="Georgia, 'Times New Roman', serif"
+    font-weight="700" letter-spacing="-1">Diên Khánh</text>
+</svg>
