@@ -54,14 +54,15 @@ export default function Footer() {
               {([
                 { id: "facebook", label: "f", url: "https://www.facebook.com/gaquedienkhanh/" },
                 { id: "instagram", label: "ig", url: "https://www.instagram.com/gaquedienkhanh/" },
-                { id: "tiktok", label: "tk", url: "#" },
+                { id: "tiktok", label: "tk", url: "https://www.tiktok.com/@gaquedienkhanh" },
+                { id: "tripadvisor", label: "ta", url: "https://www.tripadvisor.com/Restaurant_Review-g293928-d34384120-Reviews-Ga_Que_Dien_Khanh-Nha_Trang_Khanh_Hoa_Province.html" },
               ] as const).map((s) => (
                 <a
                   key={s.id}
                   href={s.url}
                   aria-label={s.id}
-                  target={s.url !== "#" ? "_blank" : undefined}
-                  rel={s.url !== "#" ? "noopener noreferrer" : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-8 h-8 rounded-sm border border-white/20 flex items-center justify-center hover:border-amber-400 hover:text-amber-400 transition-colors text-white/60 text-xs font-bold"
                 >
                   {s.label}
