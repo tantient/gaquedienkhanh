@@ -138,6 +138,14 @@ export const menuItems = {
       ru: "Говядина на гриле с лемонграссом и чили",
       price: 179000,
     },
+    {
+      vi: "Mì xào thịt bò",
+      en: "Beef stir-fried noodles",
+      ko: "소고기 볶음면",
+      zh: "牛肉炒面",
+      ru: "Лапша, обжаренная с говядиной",
+      price: 99000,
+    },
   ],
   pork: [
     {
@@ -215,14 +223,6 @@ export const menuItems = {
       zh: "蛋炒饭",
       ru: "Жареный рис с яйцом",
       price: 59000,
-    },
-    {
-      vi: "Mì xào thịt bò",
-      en: "Beef stir-fried noodles",
-      ko: "소고기 볶음면",
-      zh: "牛肉炒面",
-      ru: "Лапша, обжаренная с говядиной",
-      price: 99000,
     },
     {
       vi: "Khoai tây chiên",
