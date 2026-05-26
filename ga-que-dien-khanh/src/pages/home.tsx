@@ -399,7 +399,7 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-xl mx-auto">
+          <div className="flex justify-center">
             {/* Google Maps */}
             <motion.a
               href="https://maps.app.goo.gl/z9vPkxyfrkMaFktu9"
@@ -409,7 +409,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex-1 bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              className="w-full max-w-xs bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
               data-testid="rating-google"
             >
               <div className="flex justify-center mb-4">
@@ -420,57 +420,19 @@ export default function Home() {
                   <path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                 </svg>
               </div>
-              <div className="text-4xl font-bold text-foreground mb-1">4.8</div>
+              <div className="text-4xl font-bold text-foreground mb-1">4.9</div>
               <div className="flex justify-center gap-1 my-2">
                 {[1,2,3,4,5].map(s => (
                   <svg key={s} width="18" height="18" viewBox="0 0 24 24"
-                    fill={s <= 4 ? "#FBBC04" : "none"}
-                    stroke="#FBBC04" strokeWidth="1.5" strokeLinejoin="round">
+                    fill="#FBBC04" stroke="#FBBC04" strokeWidth="1.5" strokeLinejoin="round">
                     <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
                   </svg>
                 ))}
               </div>
               <p className="text-sm text-muted-foreground mt-2">
-                500+ {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
+                17 {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
               </p>
               <p className="text-xs font-bold text-[#4285F4] tracking-widest uppercase mt-3">Google Maps</p>
-            </motion.a>
-
-            {/* TripAdvisor */}
-            <motion.a
-              href="https://www.tripadvisor.com/Restaurant_Review-g293928-d34384120-Reviews-Ga_Que_Dien_Khanh-Nha_Trang_Khanh_Hoa_Province.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.12 }}
-              className="flex-1 bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
-              data-testid="rating-tripadvisor"
-            >
-              <div className="flex justify-center mb-4">
-                <svg width="52" height="32" viewBox="0 0 80 48" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="24" r="18" fill="#00AA6C"/>
-                  <circle cx="60" cy="24" r="18" fill="#00AA6C"/>
-                  <circle cx="20" cy="24" r="9" fill="white"/>
-                  <circle cx="60" cy="24" r="9" fill="white"/>
-                  <circle cx="20" cy="24" r="5" fill="#00AA6C"/>
-                  <circle cx="60" cy="24" r="5" fill="#00AA6C"/>
-                  <path d="M20 6 Q40 -2 60 6" stroke="#00AA6C" strokeWidth="4" fill="none" strokeLinecap="round"/>
-                  <polygon points="18,4 16,9 24,8" fill="#00AA6C"/>
-                  <polygon points="62,4 56,8 64,9" fill="#00AA6C"/>
-                </svg>
-              </div>
-              <div className="text-4xl font-bold text-foreground mb-1">4.5</div>
-              <div className="flex justify-center gap-1.5 my-2">
-                {[1,2,3,4,5].map(s => (
-                  <div key={s} className={`w-[18px] h-[18px] rounded-full border-2 border-[#00AA6C] ${s <= 4 ? "bg-[#00AA6C]" : "bg-white"}`} />
-                ))}
-              </div>
-              <p className="text-sm text-muted-foreground mt-2">
-                100+ {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
-              </p>
-              <p className="text-xs font-bold text-[#00AA6C] tracking-widest uppercase mt-3">Tripadvisor</p>
             </motion.a>
           </div>
         </div>
