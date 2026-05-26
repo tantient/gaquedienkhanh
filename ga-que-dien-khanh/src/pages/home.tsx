@@ -372,6 +372,109 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Review Ratings */}
+      <section className="py-16 bg-[#F6F4ED]">
+        <div className="container mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-10"
+          >
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="h-px w-10 bg-accent opacity-60" />
+              <span className="text-accent text-xs tracking-[0.3em] uppercase font-semibold">
+                {lang === "vi" ? "Đánh Giá" : lang === "en" ? "Reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "Отзывы"}
+              </span>
+              <div className="h-px w-10 bg-accent opacity-60" />
+            </div>
+            <h2 className="font-serif text-2xl md:text-3xl text-primary font-bold">
+              {lang === "vi" ? "Khách hàng nói gì về chúng tôi"
+               : lang === "en" ? "What our guests say"
+               : lang === "ko" ? "고객들의 평가"
+               : lang === "zh" ? "顾客评价"
+               : "Отзывы наших гостей"}
+            </h2>
+          </motion.div>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-xl mx-auto">
+            {/* Google Maps */}
+            <motion.a
+              href="https://maps.google.com/?q=Gà+Quê+Diên+Khánh+Nha+Trang"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex-1 bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              data-testid="rating-google"
+            >
+              <div className="flex justify-center mb-4">
+                <svg width="38" height="38" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                  <path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                  <path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+              </div>
+              <div className="text-4xl font-bold text-foreground mb-1">4.8</div>
+              <div className="flex justify-center gap-1 my-2">
+                {[1,2,3,4,5].map(s => (
+                  <svg key={s} width="18" height="18" viewBox="0 0 24 24"
+                    fill={s <= 4 ? "#FBBC04" : "none"}
+                    stroke="#FBBC04" strokeWidth="1.5" strokeLinejoin="round">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                500+ {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
+              </p>
+              <p className="text-xs font-bold text-[#4285F4] tracking-widest uppercase mt-3">Google Maps</p>
+            </motion.a>
+
+            {/* TripAdvisor */}
+            <motion.a
+              href="https://www.tripadvisor.com/Search?q=G%C3%A0+Qu%C3%AA+Di%C3%AAn+Kh%C3%A1nh+Nha+Trang"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.12 }}
+              className="flex-1 bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              data-testid="rating-tripadvisor"
+            >
+              <div className="flex justify-center mb-4">
+                <svg width="52" height="32" viewBox="0 0 80 48" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="24" r="18" fill="#00AA6C"/>
+                  <circle cx="60" cy="24" r="18" fill="#00AA6C"/>
+                  <circle cx="20" cy="24" r="9" fill="white"/>
+                  <circle cx="60" cy="24" r="9" fill="white"/>
+                  <circle cx="20" cy="24" r="5" fill="#00AA6C"/>
+                  <circle cx="60" cy="24" r="5" fill="#00AA6C"/>
+                  <path d="M20 6 Q40 -2 60 6" stroke="#00AA6C" strokeWidth="4" fill="none" strokeLinecap="round"/>
+                  <polygon points="18,4 16,9 24,8" fill="#00AA6C"/>
+                  <polygon points="62,4 56,8 64,9" fill="#00AA6C"/>
+                </svg>
+              </div>
+              <div className="text-4xl font-bold text-foreground mb-1">4.5</div>
+              <div className="flex justify-center gap-1.5 my-2">
+                {[1,2,3,4,5].map(s => (
+                  <div key={s} className={`w-[18px] h-[18px] rounded-full border-2 border-[#00AA6C] ${s <= 4 ? "bg-[#00AA6C]" : "bg-white"}`} />
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">
+                100+ {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
+              </p>
+              <p className="text-xs font-bold text-[#00AA6C] tracking-widest uppercase mt-3">Tripadvisor</p>
+            </motion.a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
