@@ -36,7 +36,7 @@ const stagger = {
 
 const WELCOME: Record<string, { tagline: string; heading: string; sub: string; btn: string; scroll: string; bestSeller: string; halfLabel: string; wholeLabel: string; viewMenu: string }> = {
   vi: {
-    tagline: "Gà ta thả vườn chính gốc Diên Khánh",
+    tagline: "Mộc mạc gà quê - Đậm đà vị nhớ",
     heading: "Gà Quê Diên Khánh",
     sub: "Mời bạn đến với Gà Quê Diên Khánh — khám phá hương vị cơm quê Việt Nam, gà ta thả vườn, và lẩu lá é thơm nồng, trong một góc làng quê Khánh Hòa giữa lòng Nha Trang.",
     btn: "Khám Phá Thực Đơn",
