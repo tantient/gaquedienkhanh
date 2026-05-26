@@ -48,19 +48,19 @@ const stagger = {
 
 const LABELS: Record<Lang, {
   breadcrumb: string; heroTitle: string; heroSub: string;
-  hotpot: string; grilled: string; beef: string; pork: string; appetizer: string; sides: string; drinks: string;
+  grilled: string; hotpot: string; beef: string; pork: string; sides: string; rice: string; drinks: string;
   half: string; whole: string; perPlate: string; note: string;
 }> = {
   vi: {
     breadcrumb: "Thực Đơn",
     heroTitle: "Thực Đơn",
     heroSub: "Từ lẩu gà lá é đặc sản đến gà thả vườn nướng lá chuối thơm lừng — chúng tôi phục vụ trọn vẹn hương vị đồng quê Diên Khánh.",
-    hotpot: "Lẩu Gà",
     grilled: "Các Món Gà",
+    hotpot: "Lẩu Gà",
     beef: "Các Món Bò",
     pork: "Các Món Heo",
-    appetizer: "Khai Vị & Gỏi",
-    sides: "Cơm & Mì",
+    sides: "Món Ăn Kèm",
+    rice: "Cơm & Mì",
     drinks: "Bia & Nước Giải Khát",
     half: "Nửa con",
     whole: "Nguyên con",
@@ -71,12 +71,12 @@ const LABELS: Record<Lang, {
     breadcrumb: "Menu",
     heroTitle: "Our Menu",
     heroSub: "From specialty basil-leaf chicken hotpot to fragrant banana-leaf grilled chicken — the full taste of the Vietnamese countryside.",
-    hotpot: "Chicken Hotpot",
     grilled: "Chicken Dishes",
+    hotpot: "Chicken Hotpot",
     beef: "Beef Dishes",
     pork: "Pork Dishes",
-    appetizer: "Appetizers & Salads",
-    sides: "Rice & Noodles",
+    sides: "Sides & Small Plates",
+    rice: "Rice & Noodles",
     drinks: "Beer & Beverages",
     half: "Half",
     whole: "Whole",
@@ -87,12 +87,12 @@ const LABELS: Record<Lang, {
     breadcrumb: "메뉴",
     heroTitle: "메뉴",
     heroSub: "바질잎 닭 샤부샤부 전문점부터 바나나잎 구운 닭까지 — 베트남 시골의 완전한 맛.",
-    hotpot: "닭 샤부샤부",
     grilled: "닭고기 요리",
+    hotpot: "닭 샤부샤부",
     beef: "소고기 요리",
     pork: "돼지고기 요리",
-    appetizer: "애피타이저 & 샐러드",
-    sides: "밥 & 면",
+    sides: "사이드 & 소플레이트",
+    rice: "밥 & 면",
     drinks: "맥주 & 음료",
     half: "반 마리",
     whole: "한 마리",
@@ -103,12 +103,12 @@ const LABELS: Record<Lang, {
     breadcrumb: "菜单",
     heroTitle: "菜单",
     heroSub: "从特色罗勒叶鸡肉火锅到香气四溢的香蕉叶烤鸡 — 越南乡村风味的完整呈现。",
-    hotpot: "鸡肉火锅",
     grilled: "鸡肉料理",
+    hotpot: "鸡肉火锅",
     beef: "牛肉料理",
     pork: "猪肉料理",
-    appetizer: "前菜 & 沙拉",
-    sides: "米饭 & 面条",
+    sides: "小食 & 配菜",
+    rice: "米饭 & 面条",
     drinks: "啤酒 & 饮料",
     half: "半只",
     whole: "整只",
@@ -119,12 +119,12 @@ const LABELS: Record<Lang, {
     breadcrumb: "Меню",
     heroTitle: "Наше меню",
     heroSub: "От фирменного куриного фондю с базиликом до ароматной курицы в листьях банана — весь вкус вьетнамской деревни.",
-    hotpot: "Куриный фондю",
     grilled: "Блюда из курицы",
+    hotpot: "Куриный фондю",
     beef: "Блюда из говядины",
     pork: "Блюда из свинины",
-    appetizer: "Закуски & Салаты",
-    sides: "Рис & Лапша",
+    sides: "Закуски & Гарниры",
+    rice: "Рис & Лапша",
     drinks: "Пиво & Напитки",
     half: "Половина",
     whole: "Целая",
@@ -178,7 +178,37 @@ export default function Menu() {
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
             {/* Left: food items */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="lg:w-[58%] space-y-12">
-              {/* Hotpot */}
+
+              {/* 01. Các Món Gà */}
+              <motion.div variants={fadeIn} data-testid="section-grilled">
+                <SectionHeading label={tx.grilled} />
+                <div className="space-y-4">
+                  {menuItems.grilled.map((item, i) => (
+                    <div key={i} className="bg-background rounded-sm overflow-hidden hover:shadow-sm transition-shadow flex gap-0" data-testid={`menu-grilled-${i}`}>
+                      {DISH_IMAGES[item.vi] && (
+                        <div className="w-28 flex-shrink-0">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="p-5 flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-3 mb-1">
+                          <h3 className="font-semibold text-foreground text-lg leading-snug">{item[lang]}</h3>
+                          {item.isBestSeller && (
+                            <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap flex-shrink-0">Best</span>
+                          )}
+                        </div>
+                        {lang !== "vi" && <p className="text-sm text-muted-foreground italic mb-3">{item.vi}</p>}
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt(item.price.half)}</span>
+                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt(item.price.whole)}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* 02. Lẩu Gà */}
               <motion.div variants={fadeIn} data-testid="section-hotpot">
                 <SectionHeading label={tx.hotpot} />
                 <div className="space-y-4">
@@ -207,47 +237,7 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* Grilled / Chicken */}
-              <motion.div variants={fadeIn} data-testid="section-grilled">
-                <SectionHeading label={tx.grilled} />
-                <div className="space-y-4">
-                  {menuItems.grilled.map((item, i) => {
-                    const isPlate = "plate" in item.price;
-                    return (
-                      <div key={i} className="bg-background rounded-sm overflow-hidden hover:shadow-sm transition-shadow flex gap-0" data-testid={`menu-grilled-${i}`}>
-                        {DISH_IMAGES[item.vi] && (
-                          <div className="w-28 flex-shrink-0">
-                            <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <div className="p-5 flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-3 mb-1">
-                            <h3 className="font-semibold text-foreground text-lg leading-snug">{item[lang]}</h3>
-                            {item.isBestSeller && (
-                              <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap flex-shrink-0">Best</span>
-                            )}
-                          </div>
-                          {lang !== "vi" && <p className="text-sm text-muted-foreground italic mb-3">{item.vi}</p>}
-                          <div className="flex flex-wrap gap-2 mt-3">
-                            {isPlate ? (
-                              <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{fmt((item.price as { plate: number }).plate)}/{tx.perPlate}</span>
-                            ) : (
-                              <>
-                                {(item.price as { half: number | null; whole: number }).half && (
-                                  <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt((item.price as { half: number; whole: number }).half)}</span>
-                                )}
-                                <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt((item.price as { half: number | null; whole: number }).whole)}</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-
-              {/* Beef */}
+              {/* 03. Các Món Bò */}
               <motion.div variants={fadeIn} data-testid="section-beef">
                 <SectionHeading label={tx.beef} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
@@ -265,7 +255,7 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* Pork */}
+              {/* 04. Các Món Heo */}
               <motion.div variants={fadeIn} data-testid="section-pork">
                 <SectionHeading label={tx.pork} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
@@ -283,25 +273,7 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* Appetizer */}
-              <motion.div variants={fadeIn} data-testid="section-appetizer">
-                <SectionHeading label={tx.appetizer} />
-                <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
-                  {menuItems.appetizer.map((item, i) => (
-                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-appetizer-${i}`}>
-                      <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
-                        <div>
-                          <span className="font-medium text-foreground">{item[lang]}</span>
-                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
-                        </div>
-                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}/{tx.perPlate}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Sides / Rice & Noodles */}
+              {/* 05. Món Ăn Kèm */}
               <motion.div variants={fadeIn} data-testid="section-sides">
                 <SectionHeading label={tx.sides} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
@@ -317,14 +289,37 @@ export default function Menu() {
                           <span className="font-medium text-foreground">{item[lang]}</span>
                           {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
                         </div>
-                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}</span>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}/{tx.perPlate}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               </motion.div>
 
-              {/* Drinks */}
+              {/* 06. Cơm & Mì */}
+              <motion.div variants={fadeIn} data-testid="section-rice">
+                <SectionHeading label={tx.rice} />
+                <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
+                  {menuItems.rice.map((item, i) => (
+                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-rice-${i}`}>
+                      {DISH_IMAGES[item.vi] && (
+                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between flex-1 px-4 py-4 min-w-0">
+                        <div>
+                          <span className="font-medium text-foreground">{item[lang]}</span>
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                        </div>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* 07. Bia & Nước */}
               <motion.div variants={fadeIn} data-testid="section-drinks">
                 <SectionHeading label={tx.drinks} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
