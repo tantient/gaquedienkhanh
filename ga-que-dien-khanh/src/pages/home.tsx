@@ -402,7 +402,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-xl mx-auto">
             {/* Google Maps */}
             <motion.a
-              href="https://maps.google.com/?q=Gà+Quê+Diên+Khánh+Nha+Trang"
+              href="https://maps.app.goo.gl/z9vPkxyfrkMaFktu9"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
@@ -438,7 +438,7 @@ export default function Home() {
 
             {/* TripAdvisor */}
             <motion.a
-              href="https://www.tripadvisor.com/Search?q=G%C3%A0+Qu%C3%AA+Di%C3%AAn+Kh%C3%A1nh+Nha+Trang"
+              href="https://www.tripadvisor.com/Restaurant_Review-g293928-d34384120-Reviews-Ga_Que_Dien_Khanh-Nha_Trang_Khanh_Hoa_Province.html"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
