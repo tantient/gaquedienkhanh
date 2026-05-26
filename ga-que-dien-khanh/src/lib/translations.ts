@@ -146,6 +146,7 @@ export const menuItems = {
       zh: "牛肉野菜沙拉",
       ru: "Салат из говядины с рау ма",
       price: 129000,
+      isBestSeller: false,
     },
     {
       vi: "Gỏi bao tử heo",
@@ -154,6 +155,7 @@ export const menuItems = {
       zh: "猪肚沙拉",
       ru: "Салат из свиного желудка",
       price: 129000,
+      isBestSeller: false,
     },
     {
       vi: "Nem lụi",
@@ -162,6 +164,7 @@ export const menuItems = {
       zh: "猪肉串",
       ru: "Шашлыки из свинины",
       price: 99000,
+      isBestSeller: false,
     },
     {
       vi: "Chả giò hải sản",
@@ -170,6 +173,7 @@ export const menuItems = {
       zh: "海鲜春卷",
       ru: "Весенние роллы с морепродуктами",
       price: 99000,
+      isBestSeller: false,
     },
     {
       vi: "Lòng gà bó xôi",
@@ -178,6 +182,7 @@ export const menuItems = {
       zh: "糯米包裹的鸡胗",
       ru: "Куриные желудки в клейком рисе",
       price: 69000,
+      isBestSeller: true,
     },
     {
       vi: "Lòng gà xào mướp",
@@ -186,6 +191,7 @@ export const menuItems = {
       zh: "鸡胗炒西葫芦",
       ru: "Жареные куриные желудки с люфой",
       price: 59000,
+      isBestSeller: true,
     },
     {
       vi: "Khoai tây chiên",
@@ -194,6 +200,7 @@ export const menuItems = {
       zh: "炸薯条",
       ru: "Картофель фри",
       price: 59000,
+      isBestSeller: false,
     },
   ],
   rice: [
@@ -204,6 +211,7 @@ export const menuItems = {
       zh: "牛肉炒面",
       ru: "Лапша, обжаренная с говядиной",
       price: 99000,
+      isBestSeller: false,
     },
     {
       vi: "Miến xào lòng gà",
@@ -212,6 +220,7 @@ export const menuItems = {
       zh: "鸡杂炒粉丝",
       ru: "Жареная вермишель с куриными субпродуктами",
       price: 79000,
+      isBestSeller: false,
     },
     {
       vi: "Cơm chiên muối é",
@@ -220,6 +229,7 @@ export const menuItems = {
       zh: "咸香炒饭",
       ru: "Жареный рис с листьями базилика",
       price: 59000,
+      isBestSeller: true,
     },
     {
       vi: "Cơm chiên trứng",
@@ -228,6 +238,7 @@ export const menuItems = {
       zh: "蛋炒饭",
       ru: "Жареный рис с яйцом",
       price: 59000,
+      isBestSeller: false,
     },
   ],
   drinks: [
