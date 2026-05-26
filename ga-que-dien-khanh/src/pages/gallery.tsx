@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
 import type { Lang } from "@/lib/translations";
@@ -78,13 +78,28 @@ export default function Gallery() {
   const seo = SEO_GALLERY[lang] ?? SEO_GALLERY.vi;
   useSEO({ title: seo.title, description: seo.description, canonical: "https://gaquedienkhanh.com/gallery" });
 
+  const beholdRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const container = beholdRef.current;
+    if (!container) return;
+
+    const div = document.createElement("div");
+    div.setAttribute("data-behold-id", BEHOLD_FEED_ID);
+    container.appendChild(div);
+
     if (!document.querySelector('script[src="https://w.behold.so/widget.js"]')) {
       const s = document.createElement("script");
       s.type = "module";
       s.src = "https://w.behold.so/widget.js";
       document.head.appendChild(s);
+    } else {
+      div.dispatchEvent(new Event("behold:refresh"));
     }
+
+    return () => {
+      container.innerHTML = "";
+    };
   }, []);
 
   return (
@@ -119,15 +134,8 @@ export default function Gallery() {
             <p className="text-muted-foreground">{tx.instagramSub}</p>
           </motion.div>
 
-          {/* Behold widget */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div data-behold-id={BEHOLD_FEED_ID}></div>
-          </motion.div>
+          {/* Behold widget — container managed imperatively to avoid React reconciler conflicts */}
+          <div ref={beholdRef} />
 
           {/* Follow CTA */}
           <div className="text-center mt-10">
