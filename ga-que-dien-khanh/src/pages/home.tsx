@@ -38,7 +38,7 @@ const WELCOME: Record<string, { tagline: string; heading: string; sub: string; b
   vi: {
     tagline: "Gà ta thả vườn chính gốc Diên Khánh",
     heading: "Gà Quê Diên Khánh",
-    sub: "Quán gà quê ngon nhất Nha Trang — lẩu gà lá é, gà nướng than hoa, gà ta thả vườn chính gốc Diên Khánh trong không gian ấm cúng tại 27 Tô Hiến Thành.",
+    sub: "Mời bạn đến với Gà Quê Diên Khánh — khám phá hương vị cơm quê Việt Nam, gà ta thả vườn, và lẩu lá é thơm nồng, trong một góc làng quê Khánh Hòa giữa lòng Nha Trang.",
     btn: "Khám Phá Thực Đơn",
     scroll: "Cuộn xuống",
     bestSeller: "Món Được Yêu Thích Nhất",
