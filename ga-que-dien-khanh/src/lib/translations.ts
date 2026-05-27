@@ -62,7 +62,7 @@ export const menuItems = {
       ko: "찹쌀로 감싼 닭고기",
       zh: "糯米鸡肉卷",
       ru: "Курица в клейком рисе",
-      price: { half: 199000, whole: 379000 },
+      price: { half: 209000, whole: 399000 },
       isBestSeller: false,
     },
   ],
