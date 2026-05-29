@@ -6,6 +6,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const API = `${BASE}/api/blog`;
 const AUTH_API = `${BASE}/api/auth`;
 const RATING_API = `${BASE}/api/rating`;
+const BANNER_API = `${BASE}/api/banner`;
 
 interface RatingData {
   google_rating: number;
@@ -90,6 +91,11 @@ export default function Admin() {
   const [ratingSaved, setRatingSaved] = useState(false);
   const [ratingError, setRatingError] = useState("");
 
+  const [bannerUrl, setBannerUrl] = useState("");
+  const [bannerSaving, setBannerSaving] = useState(false);
+  const [bannerSaved, setBannerSaved] = useState(false);
+  const [bannerError, setBannerError] = useState("");
+
   function authHeader(tk: string) {
     return { Authorization: `Bearer ${tk}` };
   }
@@ -107,6 +113,37 @@ export default function Admin() {
       const res = await fetch(RATING_API);
       if (res.ok) setRating(await res.json());
     } catch { /* ignore */ }
+  }
+
+  async function fetchBanner() {
+    try {
+      const res = await fetch(BANNER_API);
+      if (res.ok) { const d = await res.json() as { banner_url: string }; setBannerUrl(d.banner_url ?? ""); }
+    } catch { /* ignore */ }
+  }
+
+  async function saveBanner() {
+    if (!token) return;
+    setBannerError("");
+    setBannerSaving(true);
+    try {
+      const res = await fetch(BANNER_API, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeader(token) },
+        body: JSON.stringify({ banner_url: bannerUrl }),
+      });
+      if (res.ok) {
+        const d = await res.json() as { banner_url: string };
+        setBannerUrl(d.banner_url);
+        setBannerSaved(true);
+        setTimeout(() => setBannerSaved(false), 3000);
+      } else {
+        setBannerError("Lỗi khi lưu banner");
+      }
+    } catch {
+      setBannerError("Không thể kết nối server");
+    }
+    setBannerSaving(false);
   }
 
   async function saveRating() {
@@ -149,6 +186,7 @@ export default function Admin() {
         setAuthed(true);
         fetchPosts(tk);
         fetchRating();
+        fetchBanner();
       } else {
         const d = await res.json() as { error: string };
         setAuthError(d.error ?? "Sai mật khẩu. Vui lòng thử lại.");
@@ -168,6 +206,7 @@ export default function Admin() {
           setAuthed(true);
           fetchPosts(saved);
           fetchRating();
+          fetchBanner();
         } else {
           sessionStorage.removeItem("admin_token");
         }
@@ -455,6 +494,64 @@ export default function Admin() {
             </form>
           </motion.div>
         )}
+
+      {/* Banner Management */}
+      <div className="mb-10 bg-white border border-border/50 rounded-sm p-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-semibold text-foreground text-lg flex items-center gap-2">
+            <Image size={18} className="text-accent" /> Ảnh Banner Trang Chủ
+          </h2>
+          {bannerSaved && (
+            <motion.span initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-1.5 text-green-600 text-sm font-medium">
+              <CheckCircle size={16} /> Đã lưu!
+            </motion.span>
+          )}
+        </div>
+
+        <div className="mb-5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+            URL ảnh banner
+          </label>
+          <input
+            type="url"
+            value={bannerUrl}
+            onChange={(e) => setBannerUrl(e.target.value)}
+            placeholder="https://lh3.googleusercontent.com/d/FILE_ID_CỦA_BẠN"
+            className="w-full border border-border rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-primary"
+          />
+          <p className="text-xs text-muted-foreground mt-2">
+            Để trống sẽ dùng ảnh mặc định. Dùng link Google Drive dạng: <span className="font-mono bg-muted px-1 rounded">https://lh3.googleusercontent.com/d/FILE_ID</span>
+          </p>
+        </div>
+
+        {bannerUrl.trim() && (
+          <div className="mb-5 rounded-sm overflow-hidden border border-border h-48 bg-muted">
+            <img
+              src={bannerUrl.trim()}
+              alt="Xem trước banner"
+              className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+          </div>
+        )}
+
+        {bannerUrl.trim() && (
+          <button
+            type="button"
+            onClick={() => setBannerUrl("")}
+            className="mb-4 text-xs text-red-400 hover:text-red-600 transition-colors flex items-center gap-1"
+          >
+            <X size={12} /> Xoá banner (dùng ảnh mặc định)
+          </button>
+        )}
+
+        {bannerError && <p className="text-red-500 text-sm mb-3">{bannerError}</p>}
+        <button onClick={saveBanner} disabled={bannerSaving}
+          className="px-8 py-3 rounded-sm text-sm font-semibold bg-accent text-white hover:bg-accent/85 transition-colors disabled:opacity-60">
+          {bannerSaving ? "Đang lưu..." : "Lưu Banner"}
+        </button>
+      </div>
 
       {/* Rating Management */}
       <div className="mb-10 bg-white border border-border/50 rounded-sm p-8">

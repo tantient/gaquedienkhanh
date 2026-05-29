@@ -138,6 +138,14 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
+  const [bannerUrl, setBannerUrl] = useState("");
+  useEffect(() => {
+    fetch(`${BASE}/api/banner`)
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((data: { banner_url: string }) => setBannerUrl(data.banner_url ?? ""))
+      .catch(() => {});
+  }, []);
+
   const [apiPosts, setApiPosts] = useState<ApiPost[] | null>(null);
   useEffect(() => {
     fetch(`${BASE}/api/blog`)
@@ -171,7 +179,7 @@ export default function Home() {
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOp }}>
           <div className="absolute inset-0 bg-black/45 z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 opacity-50" />
-          <img src={heroImg} alt="Gà nướng than hoa Gà Quê Diên Khánh tại Nha Trang" className="w-full h-full object-cover" />
+          <img src={bannerUrl || heroImg} alt="Gà nướng than hoa Gà Quê Diên Khánh tại Nha Trang" className="w-full h-full object-cover" />
         </motion.div>
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">

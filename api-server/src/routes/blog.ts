@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.join(__dirname, "../src/data/blog-posts.json");
 const RATING_FILE = path.join(__dirname, "../src/data/rating.json");
+const BANNER_FILE = path.join(__dirname, "../src/data/banner.json");
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "GaQue@Admin2025";
 
 interface RatingData {
@@ -28,6 +29,22 @@ function readRating(): RatingData {
 
 function writeRating(data: RatingData) {
   fs.writeFileSync(RATING_FILE, JSON.stringify(data, null, 2), "utf-8");
+}
+
+interface BannerData {
+  banner_url: string;
+}
+
+function readBanner(): BannerData {
+  try {
+    return JSON.parse(fs.readFileSync(BANNER_FILE, "utf-8")) as BannerData;
+  } catch {
+    return { banner_url: "" };
+  }
+}
+
+function writeBanner(data: BannerData) {
+  fs.writeFileSync(BANNER_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
 const router = Router();
@@ -351,6 +368,24 @@ router.get("/rss", async (_req, res) => {
     if (rssCache) { res.json(rssCache.items); return; }
     res.status(502).json({ error: "Không thể tải tin từ Báo Khánh Hòa" });
   }
+});
+
+router.get("/banner", (_req, res) => {
+  res.json(readBanner());
+});
+
+router.put("/banner", (req, res) => {
+  const token = (req.headers.authorization ?? "").replace("Bearer ", "");
+  if (!sessions.has(token) || Date.now() > sessions.get(token)!) {
+    res.status(401).json({ error: "Không có quyền" }); return;
+  }
+  const { banner_url } = req.body as { banner_url?: string };
+  if (typeof banner_url !== "string") {
+    res.status(400).json({ error: "Dữ liệu không hợp lệ" }); return;
+  }
+  const data: BannerData = { banner_url: banner_url.trim() };
+  writeBanner(data);
+  res.json(data);
 });
 
 export default router;

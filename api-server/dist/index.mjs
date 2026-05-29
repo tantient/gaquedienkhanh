@@ -32679,6 +32679,7 @@ import { fileURLToPath } from "url";
 var __dirname2 = path.dirname(fileURLToPath(import.meta.url));
 var DATA_FILE = path.join(__dirname2, "../src/data/blog-posts.json");
 var RATING_FILE = path.join(__dirname2, "../src/data/rating.json");
+var BANNER_FILE = path.join(__dirname2, "../src/data/banner.json");
 var ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "GaQue@Admin2025";
 function readRating() {
   try {
@@ -32689,6 +32690,16 @@ function readRating() {
 }
 function writeRating(data) {
   fs.writeFileSync(RATING_FILE, JSON.stringify(data, null, 2), "utf-8");
+}
+function readBanner() {
+  try {
+    return JSON.parse(fs.readFileSync(BANNER_FILE, "utf-8"));
+  } catch {
+    return { banner_url: "" };
+  }
+}
+function writeBanner(data) {
+  fs.writeFileSync(BANNER_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 var router2 = (0, import_express2.Router)();
 var SESSION_TTL = 24 * 60 * 60 * 1e3;
@@ -32970,6 +32981,24 @@ router2.get("/rss", async (_req, res) => {
     }
     res.status(502).json({ error: "Kh\xF4ng th\u1EC3 t\u1EA3i tin t\u1EEB B\xE1o Kh\xE1nh H\xF2a" });
   }
+});
+router2.get("/banner", (_req, res) => {
+  res.json(readBanner());
+});
+router2.put("/banner", (req, res) => {
+  const token = (req.headers.authorization ?? "").replace("Bearer ", "");
+  if (!sessions.has(token) || Date.now() > sessions.get(token)) {
+    res.status(401).json({ error: "Kh\xF4ng c\xF3 quy\u1EC1n" });
+    return;
+  }
+  const { banner_url } = req.body;
+  if (typeof banner_url !== "string") {
+    res.status(400).json({ error: "D\u1EEF li\u1EC7u kh\xF4ng h\u1EE3p l\u1EC7" });
+    return;
+  }
+  const data = { banner_url: banner_url.trim() };
+  writeBanner(data);
+  res.json(data);
 });
 var blog_default = router2;
 
