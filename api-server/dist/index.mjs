@@ -32678,7 +32678,18 @@ import https from "https";
 import { fileURLToPath } from "url";
 var __dirname2 = path.dirname(fileURLToPath(import.meta.url));
 var DATA_FILE = path.join(__dirname2, "../src/data/blog-posts.json");
+var RATING_FILE = path.join(__dirname2, "../src/data/rating.json");
 var ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "GaQue@Admin2025";
+function readRating() {
+  try {
+    return JSON.parse(fs.readFileSync(RATING_FILE, "utf-8"));
+  } catch {
+    return { google_rating: 4.9, google_count: 17, show_tripadvisor: false, tripadvisor_rating: 4.5, tripadvisor_count: 1 };
+  }
+}
+function writeRating(data) {
+  fs.writeFileSync(RATING_FILE, JSON.stringify(data, null, 2), "utf-8");
+}
 var router2 = (0, import_express2.Router)();
 var SESSION_TTL = 24 * 60 * 60 * 1e3;
 var sessions = /* @__PURE__ */ new Map();
@@ -32768,6 +32779,23 @@ router2.delete("/auth", (req, res) => {
   const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
   if (token) sessions.delete(token);
   res.json({ ok: true });
+});
+router2.get("/rating", (_req, res) => {
+  res.json(readRating());
+});
+router2.put("/rating", (req, res) => {
+  if (!requireAuth(req, res)) return;
+  const { google_rating, google_count, show_tripadvisor, tripadvisor_rating, tripadvisor_count } = req.body;
+  const current = readRating();
+  const updated = {
+    google_rating: typeof google_rating === "number" ? google_rating : current.google_rating,
+    google_count: typeof google_count === "number" ? google_count : current.google_count,
+    show_tripadvisor: typeof show_tripadvisor === "boolean" ? show_tripadvisor : current.show_tripadvisor,
+    tripadvisor_rating: typeof tripadvisor_rating === "number" ? tripadvisor_rating : current.tripadvisor_rating,
+    tripadvisor_count: typeof tripadvisor_count === "number" ? tripadvisor_count : current.tripadvisor_count
+  };
+  writeRating(updated);
+  res.json(updated);
 });
 router2.get("/blog", (_req, res) => {
   const posts = readPosts();

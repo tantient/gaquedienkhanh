@@ -1,10 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { PlusCircle, Trash2, LogOut, Lock, CheckCircle, Image, Pencil, X } from "lucide-react";
+import { PlusCircle, Trash2, LogOut, Lock, CheckCircle, Image, Pencil, X, Star } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const API = `${BASE}/api/blog`;
 const AUTH_API = `${BASE}/api/auth`;
+const RATING_API = `${BASE}/api/rating`;
+
+interface RatingData {
+  google_rating: number;
+  google_count: number;
+  show_tripadvisor: boolean;
+  tripadvisor_rating: number;
+  tripadvisor_count: number;
+}
 
 const CATEGORIES = ["Ẩm Thực", "Nguyên Liệu", "Du Lịch", "Câu Chuyện", "Tin Tức", "Sự Kiện"];
 const PRESET_IMAGES = [
@@ -76,6 +85,11 @@ export default function Admin() {
   const [showForm, setShowForm] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
+  const [rating, setRating] = useState<RatingData>({ google_rating: 4.9, google_count: 17, show_tripadvisor: false, tripadvisor_rating: 4.5, tripadvisor_count: 1 });
+  const [ratingSaving, setRatingSaving] = useState(false);
+  const [ratingSaved, setRatingSaved] = useState(false);
+  const [ratingError, setRatingError] = useState("");
+
   function authHeader(tk: string) {
     return { Authorization: `Bearer ${tk}` };
   }
@@ -86,6 +100,36 @@ export default function Admin() {
       if (!res.ok) return;
       setPosts(await res.json());
     } catch { /* ignore */ }
+  }
+
+  async function fetchRating() {
+    try {
+      const res = await fetch(RATING_API);
+      if (res.ok) setRating(await res.json());
+    } catch { /* ignore */ }
+  }
+
+  async function saveRating() {
+    if (!token) return;
+    setRatingError("");
+    setRatingSaving(true);
+    try {
+      const res = await fetch(RATING_API, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeader(token) },
+        body: JSON.stringify(rating),
+      });
+      if (res.ok) {
+        setRating(await res.json());
+        setRatingSaved(true);
+        setTimeout(() => setRatingSaved(false), 3000);
+      } else {
+        setRatingError("Lỗi khi lưu đánh giá");
+      }
+    } catch {
+      setRatingError("Không thể kết nối server");
+    }
+    setRatingSaving(false);
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -104,6 +148,7 @@ export default function Admin() {
         setPassword("");
         setAuthed(true);
         fetchPosts(tk);
+        fetchRating();
       } else {
         const d = await res.json() as { error: string };
         setAuthError(d.error ?? "Sai mật khẩu. Vui lòng thử lại.");
@@ -122,6 +167,7 @@ export default function Admin() {
           setToken(saved);
           setAuthed(true);
           fetchPosts(saved);
+          fetchRating();
         } else {
           sessionStorage.removeItem("admin_token");
         }
@@ -411,6 +457,95 @@ export default function Admin() {
         )}
 
       </div>
+
+      {/* Rating Management */}
+      <div className="mb-10 bg-white border border-border/50 rounded-sm p-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-semibold text-foreground text-lg flex items-center gap-2">
+            <Star size={18} className="text-amber-400" /> Đánh Giá Google Maps
+          </h2>
+          <div className="flex items-center gap-3">
+            {ratingSaved && (
+              <motion.span initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-1.5 text-green-600 text-sm font-medium">
+                <CheckCircle size={16} /> Đã lưu!
+              </motion.span>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Điểm Google Maps (vd: 4.9)
+            </label>
+            <input
+              type="number" step="0.1" min="1" max="5"
+              value={rating.google_rating}
+              onChange={(e) => setRating((r) => ({ ...r, google_rating: parseFloat(e.target.value) || r.google_rating }))}
+              className="w-full border border-border rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+              Số lượng đánh giá Google
+            </label>
+            <input
+              type="number" min="0"
+              value={rating.google_count}
+              onChange={(e) => setRating((r) => ({ ...r, google_count: parseInt(e.target.value) || r.google_count }))}
+              className="w-full border border-border rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-primary"
+            />
+          </div>
+        </div>
+
+        <div className="border-t border-border/40 pt-5 mb-5">
+          <div className="flex items-center gap-3 mb-4">
+            <input
+              type="checkbox" id="show_tripadvisor"
+              checked={rating.show_tripadvisor}
+              onChange={(e) => setRating((r) => ({ ...r, show_tripadvisor: e.target.checked }))}
+              className="w-4 h-4 accent-amber-500"
+            />
+            <label htmlFor="show_tripadvisor" className="text-sm font-medium text-foreground cursor-pointer">
+              Hiện card TripAdvisor trên trang chủ
+            </label>
+          </div>
+          {rating.show_tripadvisor && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  Điểm TripAdvisor (vd: 4.5)
+                </label>
+                <input
+                  type="number" step="0.5" min="1" max="5"
+                  value={rating.tripadvisor_rating}
+                  onChange={(e) => setRating((r) => ({ ...r, tripadvisor_rating: parseFloat(e.target.value) || r.tripadvisor_rating }))}
+                  className="w-full border border-border rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  Số lượng đánh giá TripAdvisor
+                </label>
+                <input
+                  type="number" min="0"
+                  value={rating.tripadvisor_count}
+                  onChange={(e) => setRating((r) => ({ ...r, tripadvisor_count: parseInt(e.target.value) || r.tripadvisor_count }))}
+                  className="w-full border border-border rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-primary"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {ratingError && <p className="text-red-500 text-sm mb-3">{ratingError}</p>}
+        <button onClick={saveRating} disabled={ratingSaving}
+          className="px-8 py-3 rounded-sm text-sm font-semibold bg-accent text-white hover:bg-accent/85 transition-colors disabled:opacity-60">
+          {ratingSaving ? "Đang lưu..." : "Lưu Đánh Giá"}
+        </button>
+      </div>
+
     </div>
   );
 }

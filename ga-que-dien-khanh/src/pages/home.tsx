@@ -13,6 +13,14 @@ import grilledChickenImg from "../assets/images/grilled_chicken.png";
 const POST_IMAGES = [heroImg, hotpotImg, grilledChickenImg, hotpotImg];
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
+interface RatingData {
+  google_rating: number;
+  google_count: number;
+  show_tripadvisor: boolean;
+  tripadvisor_rating: number;
+  tripadvisor_count: number;
+}
+
 const BLOG_LABELS: Record<Lang, { sectionTitle: string; sectionSub: string; read: string; viewAll: string }> = {
   vi: { sectionTitle: "Bài Viết Mới Nhất", sectionSub: "Khám phá câu chuyện ẩm thực và bí quyết từ bếp quê", read: "Đọc bài viết", viewAll: "Xem Tất Cả Bài Viết" },
   en: { sectionTitle: "Latest from the Blog", sectionSub: "Culinary stories and tips straight from our kitchen", read: "Read article", viewAll: "View All Posts" },
@@ -121,6 +129,14 @@ export default function Home() {
     ...menuItems.hotpot.filter((i) => i.isBestSeller),
     ...menuItems.grilled.filter((i) => i.isBestSeller),
   ];
+
+  const [rating, setRating] = useState<RatingData>({ google_rating: 4.9, google_count: 17, show_tripadvisor: false, tripadvisor_rating: 4.5, tripadvisor_count: 1 });
+  useEffect(() => {
+    fetch(`${BASE}/api/rating`)
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((data: RatingData) => setRating(data))
+      .catch(() => {});
+  }, []);
 
   const [apiPosts, setApiPosts] = useState<ApiPost[] | null>(null);
   useEffect(() => {
@@ -399,7 +415,7 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="flex justify-center">
+          <div className={`flex ${rating.show_tripadvisor ? "flex-col sm:flex-row gap-6 justify-center max-w-2xl mx-auto" : "justify-center"}`}>
             {/* Google Maps */}
             <motion.a
               href="https://maps.app.goo.gl/z9vPkxyfrkMaFktu9"
@@ -420,20 +436,51 @@ export default function Home() {
                   <path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                 </svg>
               </div>
-              <div className="text-4xl font-bold text-foreground mb-1">4.9</div>
+              <div className="text-4xl font-bold text-foreground mb-1">{rating.google_rating.toFixed(1)}</div>
               <div className="flex justify-center gap-1 my-2">
                 {[1,2,3,4,5].map(s => (
                   <svg key={s} width="18" height="18" viewBox="0 0 24 24"
-                    fill="#FBBC04" stroke="#FBBC04" strokeWidth="1.5" strokeLinejoin="round">
+                    fill={s <= Math.round(rating.google_rating) ? "#FBBC04" : "none"}
+                    stroke="#FBBC04" strokeWidth="1.5" strokeLinejoin="round">
                     <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
                   </svg>
                 ))}
               </div>
               <p className="text-sm text-muted-foreground mt-2">
-                17 {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
+                {rating.google_count} {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
               </p>
               <p className="text-xs font-bold text-[#4285F4] tracking-widest uppercase mt-3">Google Maps</p>
             </motion.a>
+
+            {/* TripAdvisor — chỉ hiện khi được bật trong admin */}
+            {rating.show_tripadvisor && (
+              <motion.a
+                href="https://www.tripadvisor.com/Restaurant_Review-g293928-d34384120-Reviews-Ga_Que_Dien_Khanh-Nha_Trang_Khanh_Hoa_Province.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.12 }}
+                className="flex-1 bg-white rounded-sm p-8 text-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex justify-center mb-4">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36" className="text-[#00AA6C]">
+                    <path d="M12.006 4.295c-2.67 0-5.338.553-7.482 1.662L3 6.56l1.342 1.234a5.518 5.518 0 00-1.8 4.048 5.527 5.527 0 005.526 5.526 5.499 5.499 0 003.808-1.526l.13.176.138-.176a5.499 5.499 0 003.807 1.526 5.527 5.527 0 005.526-5.526 5.52 5.52 0 00-1.8-4.048L21 6.559l-1.524-.603c-2.144-1.109-4.812-1.661-7.47-1.661zM8.068 9.457a3.316 3.316 0 110 6.632 3.316 3.316 0 010-6.632zm7.876 0a3.316 3.316 0 110 6.632 3.316 3.316 0 010-6.632zm-7.876 1.105a2.21 2.21 0 100 4.42 2.21 2.21 0 000-4.42zm7.876 0a2.21 2.21 0 100 4.42 2.21 2.21 0 000-4.42zm-7.876 1.104a1.105 1.105 0 110 2.21 1.105 1.105 0 010-2.21zm7.876 0a1.105 1.105 0 110 2.21 1.105 1.105 0 010-2.21z"/>
+                  </svg>
+                </div>
+                <div className="text-4xl font-bold text-foreground mb-1">{rating.tripadvisor_rating.toFixed(1)}</div>
+                <div className="flex justify-center gap-1.5 my-2">
+                  {[1,2,3,4,5].map(s => (
+                    <div key={s} className={`w-[18px] h-[18px] rounded-full border-2 border-[#00AA6C] ${s <= Math.round(rating.tripadvisor_rating) ? "bg-[#00AA6C]" : "bg-white"}`} />
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  {rating.tripadvisor_count} {lang === "vi" ? "đánh giá" : lang === "en" ? "reviews" : lang === "ko" ? "리뷰" : lang === "zh" ? "评价" : "отзывов"}
+                </p>
+                <p className="text-xs font-bold text-[#00AA6C] tracking-widest uppercase mt-3">Tripadvisor</p>
+              </motion.a>
+            )}
           </div>
         </div>
       </section>

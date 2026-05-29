@@ -7,7 +7,28 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.join(__dirname, "../src/data/blog-posts.json");
+const RATING_FILE = path.join(__dirname, "../src/data/rating.json");
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "GaQue@Admin2025";
+
+interface RatingData {
+  google_rating: number;
+  google_count: number;
+  show_tripadvisor: boolean;
+  tripadvisor_rating: number;
+  tripadvisor_count: number;
+}
+
+function readRating(): RatingData {
+  try {
+    return JSON.parse(fs.readFileSync(RATING_FILE, "utf-8")) as RatingData;
+  } catch {
+    return { google_rating: 4.9, google_count: 17, show_tripadvisor: false, tripadvisor_rating: 4.5, tripadvisor_count: 1 };
+  }
+}
+
+function writeRating(data: RatingData) {
+  fs.writeFileSync(RATING_FILE, JSON.stringify(data, null, 2), "utf-8");
+}
 
 const router = Router();
 
@@ -129,6 +150,25 @@ router.delete("/auth", (req, res) => {
   const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
   if (token) sessions.delete(token);
   res.json({ ok: true });
+});
+
+router.get("/rating", (_req, res) => {
+  res.json(readRating());
+});
+
+router.put("/rating", (req, res) => {
+  if (!requireAuth(req, res)) return;
+  const { google_rating, google_count, show_tripadvisor, tripadvisor_rating, tripadvisor_count } = req.body as Partial<RatingData>;
+  const current = readRating();
+  const updated: RatingData = {
+    google_rating: typeof google_rating === "number" ? google_rating : current.google_rating,
+    google_count: typeof google_count === "number" ? google_count : current.google_count,
+    show_tripadvisor: typeof show_tripadvisor === "boolean" ? show_tripadvisor : current.show_tripadvisor,
+    tripadvisor_rating: typeof tripadvisor_rating === "number" ? tripadvisor_rating : current.tripadvisor_rating,
+    tripadvisor_count: typeof tripadvisor_count === "number" ? tripadvisor_count : current.tripadvisor_count,
+  };
+  writeRating(updated);
+  res.json(updated);
 });
 
 router.get("/blog", (_req, res) => {
