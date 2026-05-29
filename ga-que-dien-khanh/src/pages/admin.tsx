@@ -456,8 +456,6 @@ export default function Admin() {
           </motion.div>
         )}
 
-      </div>
-
       {/* Rating Management */}
       <div className="mb-10 bg-white border border-border/50 rounded-sm p-8">
         <div className="flex items-center justify-between mb-6">
@@ -546,6 +544,7 @@ export default function Admin() {
         </button>
       </div>
 
+      </div>
     </div>
   );
 }
