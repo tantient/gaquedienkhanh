@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
+import { useBanner } from "@/hooks/useBanner";
 import { BLOG_POSTS } from "@/lib/translations";
 import type { Lang } from "@/lib/translations";
 import heroImg from "../assets/images/hero.png";
@@ -93,6 +94,7 @@ export default function Blog() {
   const tx = LABELS[lang] ?? LABELS.vi;
   const seo = SEO_BLOG[lang] ?? SEO_BLOG.vi;
   useSEO({ title: seo.title, description: seo.description, canonical: "https://gaquedienkhanh.com/blog" });
+  const bannerUrl = useBanner();
   const [, navigate] = useLocation();
   const [apiPosts, setApiPosts] = useState<ApiPost[] | null>(null);
   const [rssPosts, setRssPosts] = useState<RssItem[]>([]);
@@ -121,7 +123,7 @@ export default function Blog() {
       {/* Page Hero */}
       <div className="relative h-56 md:h-72 overflow-hidden">
         <div className="absolute inset-0 bg-black/55 z-10" />
-        <img src={heroImg} alt="Blog ẩm thực và tin tức Gà Quê Diên Khánh Nha Trang" className="w-full h-full object-cover object-top" />
+        <img src={bannerUrl || heroImg} alt="Blog ẩm thực và tin tức Gà Quê Diên Khánh Nha Trang" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <p className="text-accent text-xs tracking-[0.3em] uppercase mb-3 font-semibold">{tx.breadcrumb}</p>

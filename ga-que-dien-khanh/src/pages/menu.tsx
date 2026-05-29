@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
+import { useBanner } from "@/hooks/useBanner";
 import { menuItems, fmt } from "@/lib/translations";
 import type { Lang } from "@/lib/translations";
 import heroImg from "../assets/images/hero.png";
@@ -156,13 +157,14 @@ export default function Menu() {
   const tx = LABELS[lang] ?? LABELS.vi;
   const seo = SEO_MENU[lang] ?? SEO_MENU.vi;
   useSEO({ title: seo.title, description: seo.description, canonical: "https://gaquedienkhanh.com/menu" });
+  const bannerUrl = useBanner();
 
   return (
     <div className="min-h-screen bg-background text-foreground pt-16">
       {/* Page Hero */}
       <div className="relative h-56 md:h-72 overflow-hidden">
         <div className="absolute inset-0 bg-black/55 z-10" />
-        <img src={heroImg} alt="Thực đơn nhà hàng Gà Quê Diên Khánh Nha Trang" className="w-full h-full object-cover object-bottom" />
+        <img src={bannerUrl || heroImg} alt="Thực đơn nhà hàng Gà Quê Diên Khánh Nha Trang" className="w-full h-full object-cover object-bottom" />
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <p className="text-accent text-xs tracking-[0.3em] uppercase mb-3 font-semibold">{tx.breadcrumb}</p>

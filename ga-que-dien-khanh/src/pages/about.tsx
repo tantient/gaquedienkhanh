@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
+import { useBanner } from "@/hooks/useBanner";
 import hotpotImg from "../assets/images/hotpot.png";
 import grilledChickenImg from "../assets/images/grilled_chicken.png";
 import heroImg from "../assets/images/hero.png";
@@ -206,13 +207,14 @@ export default function About() {
   const cx = CONTENT[lang] ?? CONTENT.vi;
   const seo = SEO_ABOUT[lang] ?? SEO_ABOUT.vi;
   useSEO({ title: seo.title, description: seo.description, canonical: "https://gaquedienkhanh.com/about" });
+  const bannerUrl = useBanner();
 
   return (
     <div className="min-h-screen bg-background text-foreground pt-16">
       {/* Page Hero */}
       <div className="relative h-64 md:h-80 overflow-hidden">
         <div className="absolute inset-0 bg-black/55 z-10" />
-        <img src={heroImg} alt="Không gian nhà hàng Gà Quê Diên Khánh tại 27 Tô Hiến Thành Nha Trang" className="w-full h-full object-cover object-center" />
+        <img src={bannerUrl || heroImg} alt="Không gian nhà hàng Gà Quê Diên Khánh tại 27 Tô Hiến Thành Nha Trang" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <p className="text-accent text-xs tracking-[0.3em] uppercase mb-3 font-semibold">{cx.breadcrumb}</p>
