@@ -518,8 +518,8 @@ export default function Home() {
               {
                 id: "tiktok",
                 label: "TikTok",
-                handle: "@gaquedienkhanh",
-                url: "https://www.tiktok.com/@gaquedienkhanh",
+                handle: "@qun.g.qu.nha.tran",
+                url: "https://www.tiktok.com/@qun.g.qu.nha.tran",
                 bg: "#010101",
                 color: "#ffffff",
                 delay: 0,
