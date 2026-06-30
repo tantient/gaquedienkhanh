@@ -1,0 +1,49 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <!-- Transparent background — for dark surfaces -->
+
+  <!-- Outer border -->
+  <rect x="16" y="16" width="468" height="468" fill="none" stroke="#F7F2E8" stroke-width="1.8"/>
+  <rect x="25" y="25" width="450" height="450" fill="none" stroke="#F7F2E8" stroke-width="0.6" opacity="0.4"/>
+
+  <!-- Corner ornaments -->
+  <g stroke="#F7F2E8" stroke-width="1.2" fill="none" opacity="0.7">
+    <polyline points="38,38 38,60 60,60"/>
+    <polyline points="462,38 462,60 440,60"/>
+    <polyline points="38,462 38,440 60,440"/>
+    <polyline points="462,462 462,440 440,440"/>
+  </g>
+
+  <!-- Top dots rule -->
+  <g opacity="0.5">
+    <line x1="60" y1="155" x2="196" y2="155" stroke="#F7F2E8" stroke-width="0.9"/>
+    <circle cx="210" cy="155" r="2.2" fill="#E98D0C"/>
+    <circle cx="250" cy="155" r="2.2" fill="#E98D0C"/>
+    <circle cx="290" cy="155" r="2.2" fill="#E98D0C"/>
+    <line x1="304" y1="155" x2="440" y2="155" stroke="#F7F2E8" stroke-width="0.9"/>
+  </g>
+
+  <!-- "Gà Quê" -->
+  <text x="250" y="255" text-anchor="middle" fill="#F7F2E8" font-size="118" font-family="Georgia, 'Times New Roman', serif" font-weight="700" letter-spacing="-2">Gà Quê</text>
+
+  <!-- Swash -->
+  <path d="M 148 278 Q 200 296 250 278 Q 300 260 352 278" stroke="#F7F2E8" stroke-width="1.1" fill="none" opacity="0.22"/>
+
+  <!-- Diamond separator -->
+  <polygon points="250,298 258,308 250,318 242,308" fill="#E98D0C" opacity="0.9"/>
+  <line x1="180" y1="308" x2="232" y2="308" stroke="#F7F2E8" stroke-width="0.8" opacity="0.5"/>
+  <line x1="268" y1="308" x2="320" y2="308" stroke="#F7F2E8" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- "Diên Khánh" -->
+  <text x="250" y="372" text-anchor="middle" fill="#E98D0C" font-size="56" font-family="Georgia, 'Times New Roman', serif" font-weight="400" letter-spacing="4">Diên Khánh</text>
+
+  <!-- Bottom dots rule -->
+  <g opacity="0.45">
+    <line x1="60" y1="394" x2="175" y2="394" stroke="#F7F2E8" stroke-width="0.9"/>
+    <circle cx="190" cy="394" r="2" fill="#E98D0C"/>
+    <circle cx="250" cy="394" r="2" fill="#E98D0C"/>
+    <circle cx="310" cy="394" r="2" fill="#E98D0C"/>
+    <line x1="325" y1="394" x2="440" y2="394" stroke="#F7F2E8" stroke-width="0.9"/>
+  </g>
+
+  <text x="250" y="438" text-anchor="middle" fill="#F7F2E8" font-size="10.5" letter-spacing="3.5" font-family="Georgia, 'Times New Roman', serif" opacity="0.45">NHÀ HÀNG · NHA TRANG</text>
+</svg>

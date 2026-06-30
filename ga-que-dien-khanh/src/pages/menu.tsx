@@ -51,7 +51,9 @@ const stagger = {
 
 const LABELS: Record<Lang, {
   breadcrumb: string; heroTitle: string; heroSub: string;
-  grilled: string; hotpot: string; beef: string; pork: string; sides: string; rice: string; drinks: string;
+  grilled: string; hotpot: string; beef: string; pork: string;
+  squid: string; shrimp: string;
+  sides: string; rice: string; drinks: string;
   half: string; whole: string; perPlate: string; note: string;
 }> = {
   vi: {

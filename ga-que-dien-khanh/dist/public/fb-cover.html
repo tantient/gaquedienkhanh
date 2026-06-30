@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>FB Cover - Gà Quê Diên Khánh</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/font-cg-700.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-weight: 600;
+    src: url('/font-cg-italic-600.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/font-bvp-400.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/font-bvp-600.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Be Vietnam Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/font-bvp-700.ttf') format('truetype');
+  }
+
+  html, body {
+    width: 851px;
+    height: 315px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+
+  .banner {
+    width: 851px;
+    height: 315px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(110deg, #FDF3D7 0%, #FAE8B0 30%, #FBF0C8 60%, #F5E8A5 100%);
+  }
+
+  /* Shop photo — right side */
+  .shop-photo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 42%;
+    height: 315px;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+
+  /* Gradient fade left over photo */
+  .photo-fade {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    height: 315px;
+    background: linear-gradient(to right,
+      #FAE8B0 0%,
+      rgba(250,232,176,0.95) 18%,
+      rgba(250,232,176,0.7) 40%,
+      rgba(250,232,176,0.2) 70%,
+      transparent 100%
+    );
+    z-index: 2;
+  }
+
+  /* Subtle top/bottom vignette on photo */
+  .photo-vignette {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 42%;
+    height: 315px;
+    background: linear-gradient(to bottom,
+      rgba(250,232,176,0.6) 0%,
+      transparent 25%,
+      transparent 75%,
+      rgba(250,232,176,0.6) 100%
+    );
+    z-index: 3;
+  }
+
+  /* Subtle vertical stripe texture */
+  .bg-texture {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent, transparent 80px,
+      rgba(180,130,20,0.03) 80px, rgba(180,130,20,0.03) 81px
+    );
+    z-index: 1;
+  }
+
+  /* Gold accent line — left side vertical */
+  .accent-line {
+    position: absolute;
+    left: 180px;
+    top: 25px;
+    bottom: 25px;
+    width: 1.5px;
+    background: linear-gradient(to bottom, transparent, #C8860A 15%, #E6A83E 50%, #C8860A 85%, transparent);
+    z-index: 5;
+  }
+
+  /* Main content */
+  .content {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 18px;
+  }
+
+  /* Logo panel */
+  .logo-panel {
+    width: 165px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-panel img {
+    width: 140px;
+    height: auto;
+    filter: drop-shadow(0 2px 10px rgba(180,120,10,0.3));
+  }
+
+  /* Info panel */
+  .info-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding-left: 28px;
+    max-width: 520px;
+  }
+
+  .restaurant-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: #5A2E08;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+
+  .restaurant-name .gold {
+    color: #B87010;
+  }
+
+  .restaurant-type {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #8B5E1A;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    white-space: nowrap;
+  }
+
+  .tagline-line {
+    font-size: 9.5px;
+    color: #A07030;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .slogan-wrapper {
+    border-left: 3px solid #D4980A;
+    padding-left: 12px;
+    margin-bottom: 18px;
+  }
+
+  .slogan {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    color: #3D1E00;
+    line-height: 1.4;
+  }
+
+  .info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 11px;
+    color: #4A2E0A;
+    line-height: 1.5;
+  }
+
+  .info-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    margin-top: 1.5px;
+    color: #B87010;
+  }
+
+  .lbl {
+    color: #B87010;
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-right: 3px;
+  }
+
+  .sep {
+    color: #C8860A;
+    margin: 0 7px;
+    opacity: 0.45;
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="bg-texture"></div>
+
+  <!-- Shop photo right -->
+  <img class="shop-photo" src="/shop-photo.jpg" alt="Gà Quê Diên Khánh" />
+  <div class="photo-fade"></div>
+  <div class="photo-vignette"></div>
+
+  <!-- Accent line -->
+  <div class="accent-line"></div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- Logo -->
+    <div class="logo-panel">
+      <img src="/logo.png" alt="Logo" />
+    </div>
+
+    <!-- Info -->
+    <div class="info-panel">
+      <div class="restaurant-name">Gà Quê <span class="gold">Diên Khánh</span></div>
+      <div class="restaurant-type">Nhà Hàng Chuyên Gà Ta · Lẩu Gà Lá É · Gà Nướng Than Hoa</div>
+      <div class="tagline-line">từ vườn quê đến bàn ăn</div>
+
+      <div class="slogan-wrapper">
+        <div class="slogan">Mộc mạc gà quê, đậm đà vị nhớ</div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <div><span class="lbl">Địa chỉ</span>27 Tô Hiến Thành, Phường Nha Trang, Khánh Hoà</div>
+        </div>
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <div><span class="lbl">Hotline</span>0823 890 789<span class="sep">•</span><span class="lbl">Giờ mở cửa</span>10:00 – 24:00 hàng ngày</div>
+        </div>
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <div><span class="lbl">Web</span>gaquedienkhanh.com<span class="sep">•</span><span class="lbl">Email</span>gaquedienkhanh@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
