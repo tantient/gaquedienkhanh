@@ -17,7 +17,7 @@ export function useMenu() {
   const { data, isLoading, error } = useQuery<MenuData>({
     queryKey: ["menu"],
     queryFn: fetchMenu,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 30,
     retry: 1,
   });
 

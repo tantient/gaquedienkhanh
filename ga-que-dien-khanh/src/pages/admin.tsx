@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { PlusCircle, Trash2, LogOut, Lock, CheckCircle, Image, Pencil, X, Star } from "lucide-react";
 
@@ -74,6 +75,7 @@ function postToForm(p: Post): FormState {
 }
 
 export default function Admin() {
+  const queryClient = useQueryClient();
   const [password, setPassword] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [authed, setAuthed] = useState(false);
@@ -187,6 +189,7 @@ export default function Admin() {
         if (menuFileRef.current) menuFileRef.current.value = "";
         setMenuUploaded(true);
         setTimeout(() => setMenuUploaded(false), 4000);
+        queryClient.invalidateQueries({ queryKey: ["menu"] });
       } else {
         const d = await res.json() as { error: string };
         setMenuError(d.error ?? "Lỗi khi upload file");
