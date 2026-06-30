@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# Install dependencies if needed
+echo "Installing dependencies..."
+pnpm install --frozen-lockfile
+
 # Build backend
 echo "Building backend..."
-cd /home/runner/workspace/api-server && node ./build.mjs
+cd /home/runner/workspace/api-server && pnpm run build
 cd /home/runner/workspace
 
 # Start backend in background
