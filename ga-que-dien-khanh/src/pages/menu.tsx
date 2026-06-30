@@ -203,8 +203,14 @@ export default function Menu() {
                         </div>
                         {lang !== "vi" && <p className="text-sm text-muted-foreground italic mb-3">{item.vi}</p>}
                         <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt(item.price.half)}</span>
-                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt(item.price.whole)}</span>
+                          {typeof item.price === "object" ? (
+                            <>
+                              <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt(item.price.half)}</span>
+                              <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt(item.price.whole)}</span>
+                            </>
+                          ) : (
+                            <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{fmt(item.price)}</span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -232,8 +238,14 @@ export default function Menu() {
                         </div>
                         {lang !== "vi" && <p className="text-sm text-muted-foreground italic mb-3">{item.vi}</p>}
                         <div className="flex flex-wrap gap-2 mt-3">
-                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt(item.price.half)}</span>
-                          <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt(item.price.whole)}</span>
+                          {typeof item.price === "object" ? (
+                            <>
+                              <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.half}: {fmt(item.price.half)}</span>
+                              <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{tx.whole}: {fmt(item.price.whole)}</span>
+                            </>
+                          ) : (
+                            <span className="text-sm font-semibold text-primary bg-primary/8 px-3 py-1 rounded-sm">{fmt(item.price)}</span>
+                          )}
                         </div>
                       </div>
                     </div>

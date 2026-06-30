@@ -16,7 +16,7 @@ export const NAV_LABELS: Record<Lang, { home: string; about: string; menu: strin
   ru: { home: "Главная", about: "О нас", menu: "Меню", blog: "Блог", contact: "Контакты", gallery: "Галерея" },
 };
 
-export const fmt = (n: number) => n.toLocaleString("vi-VN") + "đ";
+export const fmt = (n: number) => (n ?? 0).toLocaleString("vi-VN") + "đ";
 
 export const menuItems = {
   grilled: [
