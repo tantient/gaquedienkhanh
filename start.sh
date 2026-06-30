@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+
+ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 # Install dependencies if needed
 echo "Installing dependencies..."
@@ -6,8 +9,8 @@ pnpm install --frozen-lockfile
 
 # Build backend
 echo "Building backend..."
-cd /home/runner/workspace/api-server && pnpm run build
-cd /home/runner/workspace
+cd "$ROOT/api-server" && pnpm run build
+cd "$ROOT"
 
 # Build frontend (static files -> ga-que-dien-khanh/dist/public)
 echo "Building frontend..."
