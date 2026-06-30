@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
 import { useBanner } from "@/hooks/useBanner";
@@ -9,19 +10,19 @@ import heroImg from "../assets/images/hero.png";
 import hotpotImg from "../assets/images/hotpot.png";
 import grilledChickenImg from "../assets/images/grilled_chicken.png";
 
-import imgLauLaE from "../assets/images/lau-ga-la-e.jpg";
-import imgLauLaGiang from "../assets/images/lau-ga-la-giang.jpg";
-import imgNuongLaQue from "../assets/images/ga-nuong-la-que.jpg";
-import imgNuongMuoiOt from "../assets/images/ga-nuong-muoi-ot.jpg";
-import imgHapHanh from "../assets/images/ga-hap-hanh.jpg";
-import imgSotBoToi from "../assets/images/ga-sot-bo-toi.jpg";
-import imgBoXoi from "../assets/images/ga-bo-xoi.jpg";
-import imgLongGaBoXoi from "../assets/images/long-ga-bo-xoi.jpg";
-import imgLongGaXaoMuop from "../assets/images/long-ga-xao-muop.jpg";
-import imgComChienMuoiE from "../assets/images/com-chien-muoi-e.jpg";
-import imgComChienTrung from "../assets/images/com-chien-trung.jpg";
-import imgMiXaoThitBo from "../assets/images/mi-xao-thit-bo.jpg";
-import imgKhoaiTayChien from "../assets/images/khoai-tay-chien.jpg";
+import imgLauLaE from "../assets/images/lau-ga-la-e.webp";
+import imgLauLaGiang from "../assets/images/lau-ga-la-giang.webp";
+import imgNuongLaQue from "../assets/images/ga-nuong-la-que.webp";
+import imgNuongMuoiOt from "../assets/images/ga-nuong-muoi-ot.webp";
+import imgHapHanh from "../assets/images/ga-hap-hanh.webp";
+import imgSotBoToi from "../assets/images/ga-sot-bo-toi.webp";
+import imgBoXoi from "../assets/images/ga-bo-xoi.webp";
+import imgLongGaBoXoi from "../assets/images/long-ga-bo-xoi.webp";
+import imgLongGaXaoMuop from "../assets/images/long-ga-xao-muop.webp";
+import imgComChienMuoiE from "../assets/images/com-chien-muoi-e.webp";
+import imgComChienTrung from "../assets/images/com-chien-trung.webp";
+import imgMiXaoThitBo from "../assets/images/mi-xao-thit-bo.webp";
+import imgKhoaiTayChien from "../assets/images/khoai-tay-chien.webp";
 
 const DISH_IMAGES: Record<string, string> = {
   "Lẩu gà ta lá é": imgLauLaE,
@@ -161,6 +162,17 @@ export default function Menu() {
   const bannerUrl = useBanner();
   const { menu: menuItems } = useMenu();
 
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeLightbox(); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [lightbox, closeLightbox]);
+
   return (
     <div className="min-h-screen bg-background text-foreground pt-16">
       {/* Page Hero */}
@@ -190,9 +202,9 @@ export default function Menu() {
                   {menuItems.grilled.map((item, i) => (
                     <div key={i} className="bg-background rounded-sm overflow-hidden hover:shadow-sm transition-shadow flex gap-0" data-testid={`menu-grilled-${i}`}>
                       {DISH_IMAGES[item.vi] && (
-                        <div className="w-28 flex-shrink-0">
-                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
-                        </div>
+                        <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-28 flex-shrink-0 cursor-zoom-in overflow-hidden">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        </button>
                       )}
                       <div className="p-5 flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-3 mb-1">
@@ -225,9 +237,9 @@ export default function Menu() {
                   {menuItems.hotpot.map((item, i) => (
                     <div key={i} className="bg-background rounded-sm overflow-hidden hover:shadow-sm transition-shadow flex gap-0" data-testid={`menu-hotpot-${i}`}>
                       {DISH_IMAGES[item.vi] && (
-                        <div className="w-28 flex-shrink-0">
-                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
-                        </div>
+                        <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-28 flex-shrink-0 cursor-zoom-in overflow-hidden">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        </button>
                       )}
                       <div className="p-5 flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-3 mb-1">
@@ -296,9 +308,9 @@ export default function Menu() {
                   {menuItems.sides.map((item, i) => (
                     <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-side-${i}`}>
                       {DISH_IMAGES[item.vi] && (
-                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
-                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
-                        </div>
+                        <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-16 h-16 flex-shrink-0 cursor-zoom-in overflow-hidden">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        </button>
                       )}
                       <div className="flex items-center justify-between flex-1 px-4 py-4 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -322,9 +334,9 @@ export default function Menu() {
                   {menuItems.rice.map((item, i) => (
                     <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-rice-${i}`}>
                       {DISH_IMAGES[item.vi] && (
-                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
-                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} className="w-full h-full object-cover" />
-                        </div>
+                        <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-16 h-16 flex-shrink-0 cursor-zoom-in overflow-hidden">
+                          <img src={DISH_IMAGES[item.vi]} alt={item.vi} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        </button>
                       )}
                       <div className="flex items-center justify-between flex-1 px-4 py-4 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -387,6 +399,43 @@ export default function Menu() {
           </div>
         </div>
       </section>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+            onClick={closeLightbox}
+          >
+            <motion.img
+              src={lightbox.src}
+              alt={lightbox.alt}
+              initial={{ scale: 0.88, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.88, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="max-w-full max-h-[88vh] rounded-md shadow-2xl object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              type="button"
+              onClick={closeLightbox}
+              aria-label="Đóng"
+              className="absolute top-4 right-4 text-white/80 hover:text-white bg-black/40 hover:bg-black/60 rounded-full w-10 h-10 flex items-center justify-center text-xl transition-colors"
+            >
+              ✕
+            </button>
+            <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm select-none">
+              {lightbox.alt}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
