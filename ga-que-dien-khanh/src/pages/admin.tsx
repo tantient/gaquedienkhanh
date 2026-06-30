@@ -106,6 +106,45 @@ export default function Admin() {
   const [menuPreview, setMenuPreview] = useState<{ category: string; count: number }[] | null>(null);
   const menuFileRef = useRef<HTMLInputElement>(null);
 
+  type PriceVal = number | { half: number; whole: number };
+  type FoodItem = { vi: string; en: string; ko: string; zh: string; ru: string; price: PriceVal; isBestSeller?: boolean };
+  type DrinkItem = { name: string | { vi: string; en: string }; price: number };
+  type LiveMenu = { grilled: FoodItem[]; hotpot: FoodItem[]; beef: FoodItem[]; pork: FoodItem[]; sides: FoodItem[]; rice: FoodItem[]; drinks: DrinkItem[] };
+
+  const MENU_TABS: { key: keyof LiveMenu; label: string }[] = [
+    { key: "grilled", label: "Các Món Gà" },
+    { key: "hotpot",  label: "Lẩu Gà" },
+    { key: "beef",    label: "Các Món Bò" },
+    { key: "pork",    label: "Các Món Heo" },
+    { key: "sides",   label: "Món Ăn Kèm" },
+    { key: "rice",    label: "Cơm & Mì" },
+    { key: "drinks",  label: "Bia & Nước" },
+  ];
+
+  const [liveMenu, setLiveMenu] = useState<LiveMenu | null>(null);
+  const [activeMenuTab, setActiveMenuTab] = useState<keyof LiveMenu>("grilled");
+  const [menuEditSaving, setMenuEditSaving] = useState(false);
+  const [menuEditSaved, setMenuEditSaved] = useState(false);
+  const [menuEditError, setMenuEditError] = useState("");
+
+  function priceToStr(p: PriceVal): string {
+    if (typeof p === "object") return `${p.half}/${p.whole}`;
+    return String(p);
+  }
+  function strToPrice(s: string): PriceVal {
+    const parts = s.replace(/\s/g, "").split("/");
+    if (parts.length === 2) {
+      const half = parseInt(parts[0].replace(/[.,]/g, ""), 10);
+      const whole = parseInt(parts[1].replace(/[.,]/g, ""), 10);
+      if (!isNaN(half) && !isNaN(whole)) return { half, whole };
+    }
+    const n = parseInt(s.replace(/[.,\s]/g, ""), 10);
+    return isNaN(n) ? 0 : n;
+  }
+  function drinkName(item: DrinkItem): string {
+    return typeof item.name === "string" ? item.name : item.name.vi;
+  }
+
   function authHeader(tk: string) {
     return { Authorization: `Bearer ${tk}` };
   }
@@ -130,6 +169,74 @@ export default function Admin() {
       const res = await fetch(BANNER_API);
       if (res.ok) { const d = await res.json() as { banner_url: string }; setBannerUrl(d.banner_url ?? ""); }
     } catch { /* ignore */ }
+  }
+
+  async function fetchLiveMenu() {
+    try {
+      const res = await fetch(MENU_API);
+      if (res.ok) setLiveMenu(await res.json() as LiveMenu);
+    } catch { /* ignore */ }
+  }
+
+  async function saveMenuEdit() {
+    if (!token || !liveMenu) return;
+    setMenuEditError("");
+    setMenuEditSaving(true);
+    try {
+      const res = await fetch(MENU_API, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeader(token) },
+        body: JSON.stringify(liveMenu),
+      });
+      if (res.ok) {
+        setMenuEditSaved(true);
+        setTimeout(() => setMenuEditSaved(false), 3000);
+        queryClient.invalidateQueries({ queryKey: ["menu"] });
+      } else {
+        setMenuEditError("Lỗi khi lưu thực đơn");
+      }
+    } catch {
+      setMenuEditError("Không thể kết nối server");
+    }
+    setMenuEditSaving(false);
+  }
+
+  function updateFoodItem(cat: keyof LiveMenu, idx: number, field: "vi" | "price", value: string) {
+    if (!liveMenu) return;
+    const items = [...(liveMenu[cat] as FoodItem[])];
+    if (field === "vi") items[idx] = { ...items[idx], vi: value };
+    else items[idx] = { ...items[idx], price: strToPrice(value) };
+    setLiveMenu({ ...liveMenu, [cat]: items });
+  }
+
+  function deleteFoodItem(cat: keyof LiveMenu, idx: number) {
+    if (!liveMenu) return;
+    const items = (liveMenu[cat] as FoodItem[]).filter((_, i) => i !== idx);
+    setLiveMenu({ ...liveMenu, [cat]: items });
+  }
+
+  function addFoodItem(cat: keyof LiveMenu) {
+    if (!liveMenu) return;
+    const newItem: FoodItem = { vi: "", en: "", ko: "", zh: "", ru: "", price: 0 };
+    setLiveMenu({ ...liveMenu, [cat]: [...(liveMenu[cat] as FoodItem[]), newItem] });
+  }
+
+  function updateDrinkItem(idx: number, field: "name" | "price", value: string) {
+    if (!liveMenu) return;
+    const items = [...liveMenu.drinks];
+    if (field === "name") items[idx] = { ...items[idx], name: value };
+    else items[idx] = { ...items[idx], price: parseInt(value.replace(/[.,\s]/g, ""), 10) || 0 };
+    setLiveMenu({ ...liveMenu, drinks: items });
+  }
+
+  function deleteDrinkItem(idx: number) {
+    if (!liveMenu) return;
+    setLiveMenu({ ...liveMenu, drinks: liveMenu.drinks.filter((_, i) => i !== idx) });
+  }
+
+  function addDrinkItem() {
+    if (!liveMenu) return;
+    setLiveMenu({ ...liveMenu, drinks: [...liveMenu.drinks, { name: "", price: 0 }] });
   }
 
   async function saveBanner() {
@@ -241,6 +348,7 @@ export default function Admin() {
         fetchPosts(tk);
         fetchRating();
         fetchBanner();
+        fetchLiveMenu();
       } else {
         const d = await res.json() as { error: string };
         setAuthError(d.error ?? "Sai mật khẩu. Vui lòng thử lại.");
@@ -261,6 +369,7 @@ export default function Admin() {
           fetchPosts(saved);
           fetchRating();
           fetchBanner();
+          fetchLiveMenu();
         } else {
           sessionStorage.removeItem("admin_token");
         }
@@ -693,6 +802,89 @@ export default function Admin() {
           className="px-8 py-3 rounded-sm text-sm font-semibold bg-accent text-white hover:bg-accent/85 transition-colors disabled:opacity-60">
           {ratingSaving ? "Đang lưu..." : "Lưu Đánh Giá"}
         </button>
+      </div>
+
+      {/* Menu Editor */}
+      <div className="bg-white rounded-sm shadow-sm border border-border/50 p-8 mt-6">
+        <h2 className="font-semibold text-lg text-foreground mb-1 flex items-center gap-2">
+          🍽️ Chỉnh Sửa Thực Đơn Trực Tiếp
+        </h2>
+        <p className="text-sm text-muted-foreground mb-5">
+          Thêm, sửa, xoá từng món ngay tại đây. Giá nhập dạng <code className="bg-muted px-1 py-0.5 rounded text-xs">199000</code> hoặc <code className="bg-muted px-1 py-0.5 rounded text-xs">199000/379000</code> (nửa/nguyên con).
+        </p>
+
+        {liveMenu && (
+          <>
+            {/* Tabs */}
+            <div className="flex flex-wrap gap-1 mb-5 border-b border-border pb-3">
+              {MENU_TABS.map((t) => (
+                <button key={t.key} onClick={() => setActiveMenuTab(t.key)}
+                  className={`px-3 py-1.5 rounded-sm text-xs font-semibold transition-colors ${activeMenuTab === t.key ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-muted/70"}`}>
+                  {t.label} <span className="ml-1 opacity-70">({liveMenu[t.key].length})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Items list */}
+            <div className="space-y-2 mb-4">
+              {activeMenuTab === "drinks" ? (
+                <>
+                  {liveMenu.drinks.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <input
+                        value={drinkName(item)}
+                        onChange={(e) => updateDrinkItem(i, "name", e.target.value)}
+                        placeholder="Tên đồ uống"
+                        className="flex-1 border border-border rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                      />
+                      <input
+                        value={String(item.price)}
+                        onChange={(e) => updateDrinkItem(i, "price", e.target.value)}
+                        placeholder="Giá"
+                        className="w-32 border border-border rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                      />
+                      <button onClick={() => deleteDrinkItem(i)} className="text-muted-foreground hover:text-red-500 transition-colors flex-shrink-0"><Trash2 size={15} /></button>
+                    </div>
+                  ))}
+                  <button onClick={addDrinkItem}
+                    className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-medium mt-2 transition-colors">
+                    <PlusCircle size={14} /> Thêm đồ uống
+                  </button>
+                </>
+              ) : (
+                <>
+                  {(liveMenu[activeMenuTab] as FoodItem[]).map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <input
+                        value={item.vi}
+                        onChange={(e) => updateFoodItem(activeMenuTab, i, "vi", e.target.value)}
+                        placeholder="Tên món (tiếng Việt)"
+                        className="flex-1 border border-border rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                      />
+                      <input
+                        value={priceToStr(item.price)}
+                        onChange={(e) => updateFoodItem(activeMenuTab, i, "price", e.target.value)}
+                        placeholder="Giá (vd: 199000 hoặc 199000/379000)"
+                        className="w-44 border border-border rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                      />
+                      <button onClick={() => deleteFoodItem(activeMenuTab, i)} className="text-muted-foreground hover:text-red-500 transition-colors flex-shrink-0"><Trash2 size={15} /></button>
+                    </div>
+                  ))}
+                  <button onClick={() => addFoodItem(activeMenuTab)}
+                    className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-medium mt-2 transition-colors">
+                    <PlusCircle size={14} /> Thêm món
+                  </button>
+                </>
+              )}
+            </div>
+
+            {menuEditError && <p className="text-red-500 text-sm mb-3">{menuEditError}</p>}
+            <button onClick={saveMenuEdit} disabled={menuEditSaving}
+              className="px-8 py-3 rounded-sm text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/85 transition-colors disabled:opacity-50 flex items-center gap-2">
+              {menuEditSaving ? "Đang lưu..." : menuEditSaved ? <><CheckCircle size={15} /> Đã lưu!</> : "Lưu Thực Đơn"}
+            </button>
+          </>
+        )}
       </div>
 
       {/* Menu Upload */}
