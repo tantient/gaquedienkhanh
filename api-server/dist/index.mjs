@@ -76046,7 +76046,7 @@ var require_lib10 = __commonJS({
     exports2.convertToHtml = convertToHtml;
     exports2.convertToMarkdown = convertToMarkdown;
     exports2.convert = convert;
-    exports2.extractRawText = extractRawText;
+    exports2.extractRawText = extractRawText2;
     exports2.images = require_images();
     exports2.transforms = require_transforms();
     exports2.underline = require_underline();
@@ -76096,7 +76096,7 @@ var require_lib10 = __commonJS({
         });
       });
     }
-    function extractRawText(input) {
+    function extractRawText2(input) {
       return unzip2.openZip(input).then(docxReader.read).then(function(documentResult) {
         return documentResult.map(convertElementToRawText);
       });
@@ -80572,16 +80572,35 @@ function parsePrice(raw) {
   }
   return null;
 }
+function parsePriceFromLine(line) {
+  const parseNum = (s) => parseInt(s.replace(/[.,]/g, ""), 10);
+  const clean = line.replace(/\s/g, "");
+  const twoPrice = clean.match(/(\d[\d.,]+)\s*[\/\-]\s*(\d[\d.,]+)/);
+  if (twoPrice) {
+    const a = parseNum(twoPrice[1]);
+    const b = parseNum(twoPrice[2]);
+    if (a > 0 && b > 0 && b > a) return { half: a, whole: b };
+    if (a > 0 && b > 0) return { half: Math.min(a, b), whole: Math.max(a, b) };
+  }
+  const singlePrice = clean.match(/(\d[\d.,]{2,})/);
+  if (singlePrice) {
+    const val = parseNum(singlePrice[1]);
+    if (val >= 1e4) return val;
+  }
+  return null;
+}
 function detectCategory(vi) {
   const v = vi.toLowerCase();
   if (v.includes("l\u1EA9u")) return "hotpot";
-  if (v.includes("g\xE0 ta") || v.includes("g\xE0 n\u01B0\u1EDBng") || v.includes("g\xE0 h\u1EA5p") || v.includes("g\xE0 s\u1ED1t") || v.includes("g\xE0 b\xF3 x\xF4i"))
+  if (v.includes("g\xE0 ta") || v.includes("g\xE0 n\u01B0\u1EDBng") || v.includes("g\xE0 h\u1EA5p") || v.includes("g\xE0 s\u1ED1t") || v.includes("g\xE0 b\xF3 x\xF4i") || v.includes("g\xE0 rang"))
     return "grilled";
   if (v.includes("b\xF2")) return "beef";
-  if (v.includes("heo") || v.includes("s\u01B0\u1EDDn") || v.includes("ch\u1EA1o") || v.includes("ba ch\u1EC9"))
+  if (v.includes("heo") || v.includes("s\u01B0\u1EDDn") || v.includes("ch\u1EA1o") || v.includes("ba ch\u1EC9") || v.includes("th\u1ECBt quay"))
     return "pork";
-  if (v.includes("c\u01A1m") || v.includes("mi\u1EBFn") || v.includes("m\xEC") || v.includes("khoai t\xE2y"))
+  if (v.includes("c\u01A1m") || v.includes("mi\u1EBFn") || v.includes("m\xEC") || v.includes("khoai t\xE2y") || v.includes("b\xFAn"))
     return "rice";
+  if (v.includes("bia") || v.includes("n\u01B0\u1EDBc") || v.includes("tr\xE0") || v.includes("sinh t\u1ED1") || v.includes("n\u01B0\u1EDBc ng\u1ECDt"))
+    return "drinks";
   return "sides";
 }
 async function parseMenuDocx(buffer) {
@@ -80589,7 +80608,17 @@ async function parseMenuDocx(buffer) {
   const rawText = result2.value;
   return parseMenuText(rawText);
 }
+async function extractRawText(buffer) {
+  const result2 = await import_mammoth.default.extractRawText({ buffer });
+  return result2.value;
+}
 function parseMenuText(rawText) {
+  const menu = parseNumberedMultilang(rawText);
+  const totalItems = Object.values(menu).reduce((s, a) => s + a.length, 0);
+  if (totalItems > 0) return menu;
+  return parseSimpleFormat(rawText);
+}
+function parseNumberedMultilang(rawText) {
   const menu = {
     grilled: [],
     hotpot: [],
@@ -80628,6 +80657,63 @@ function parseMenuText(rawText) {
   }
   return menu;
 }
+function parseSimpleFormat(rawText) {
+  const menu = {
+    grilled: [],
+    hotpot: [],
+    beef: [],
+    pork: [],
+    sides: [],
+    rice: [],
+    drinks: []
+  };
+  const lines = rawText.split(/\r?\n/).map((l2) => l2.trim()).filter(Boolean);
+  let inDrinksSection = false;
+  for (const line of lines) {
+    if (/^(BIA[\s\-]|NƯỚC[\s\-]|ĐỒ UỐNG)/i.test(line)) {
+      inDrinksSection = true;
+      continue;
+    }
+    const stripped = line.replace(/^\d+[\s.。、)）]+/, "").trim();
+    if (!stripped) continue;
+    const colonIdx = stripped.lastIndexOf(":");
+    let name = stripped;
+    let priceStr = "";
+    if (colonIdx !== -1) {
+      name = stripped.slice(0, colonIdx).trim();
+      priceStr = stripped.slice(colonIdx + 1).trim();
+    } else {
+      const priceMatch = stripped.match(/^(.+?)\s{2,}([\d][\d.,\/\-\s]+)$/);
+      if (priceMatch) {
+        name = priceMatch[1].trim();
+        priceStr = priceMatch[2].trim();
+      }
+    }
+    if (!name || name.length < 2) continue;
+    if (hasChinese(name) || hasKorean(name) || hasCyrillic(name)) continue;
+    const price = parsePriceFromLine(priceStr || line);
+    if (!price) continue;
+    name = name.replace(/\/$/, "").trim();
+    if (inDrinksSection) {
+      menu.drinks.push({ name, price: typeof price === "number" ? price : price.half });
+    } else {
+      const category = detectCategory(name);
+      if (category === "drinks") {
+        menu.drinks.push({ name, price: typeof price === "number" ? price : price.half });
+      } else {
+        menu[category].push({
+          vi: name,
+          en: name,
+          ko: "",
+          zh: "",
+          ru: "",
+          price
+        });
+      }
+    }
+  }
+  return menu;
+}
 function extractNameAndPrice(raw) {
   const colonIdx = raw.lastIndexOf(":");
   if (colonIdx === -1) return { name: raw.trim(), priceRaw: "" };
@@ -80658,14 +80744,12 @@ function parseDrinkLines(lines, drinks) {
 }
 function parseFoodLines(lines, menu) {
   const langs = { vi: "", en: "", zh: "", ko: "", ru: "" };
-  let priceRaw = "";
   let firstPrice = null;
   for (const line of lines) {
     const { name, priceRaw: pr } = extractNameAndPrice(line);
     const p = parsePrice(pr);
     if (!firstPrice && p) {
       firstPrice = p;
-      priceRaw = pr;
     }
     if (hasChinese(line)) {
       if (!langs.zh) langs.zh = name;
@@ -80745,6 +80829,20 @@ router3.post(
     } catch (err) {
       console.error("Menu upload error:", err);
       return res.status(500).json({ error: "Failed to parse menu file" });
+    }
+  }
+);
+router3.post(
+  "/menu/raw-text",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: "No file" });
+      const text = await extractRawText(req.file.buffer);
+      const lines = text.split(/\r?\n/).map((l2) => l2.trim()).filter(Boolean);
+      return res.json({ lines, total: lines.length });
+    } catch (err) {
+      return res.status(500).json({ error: String(err) });
     }
   }
 );

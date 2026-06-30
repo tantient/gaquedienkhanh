@@ -4,7 +4,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import { requireAuth } from "../lib/auth.js";
-import { parseMenuDocx } from "../lib/menuParser.js";
+import { parseMenuDocx, extractRawText } from "../lib/menuParser.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MENU_FILE = join(__dirname, "../src/data/menu.json");
@@ -70,6 +70,21 @@ router.post(
     } catch (err) {
       console.error("Menu upload error:", err);
       return res.status(500).json({ error: "Failed to parse menu file" });
+    }
+  }
+);
+
+router.post(
+  "/menu/raw-text",
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: "No file" });
+      const text = await extractRawText(req.file.buffer);
+      const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+      return res.json({ lines, total: lines.length });
+    } catch (err) {
+      return res.status(500).json({ error: String(err) });
     }
   }
 );

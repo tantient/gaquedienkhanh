@@ -71,6 +71,28 @@ function parsePrice(raw: string): number | { half: number; whole: number } | nul
   return null;
 }
 
+function parsePriceFromLine(line: string): number | { half: number; whole: number } | null {
+  const parseNum = (s: string) => parseInt(s.replace(/[.,]/g, ""), 10);
+
+  const clean = line.replace(/\s/g, "");
+
+  const twoPrice = clean.match(/(\d[\d.,]+)\s*[\/\-]\s*(\d[\d.,]+)/);
+  if (twoPrice) {
+    const a = parseNum(twoPrice[1]);
+    const b = parseNum(twoPrice[2]);
+    if (a > 0 && b > 0 && b > a) return { half: a, whole: b };
+    if (a > 0 && b > 0) return { half: Math.min(a, b), whole: Math.max(a, b) };
+  }
+
+  const singlePrice = clean.match(/(\d[\d.,]{2,})/);
+  if (singlePrice) {
+    const val = parseNum(singlePrice[1]);
+    if (val >= 10000) return val;
+  }
+
+  return null;
+}
+
 function detectCategory(vi: string): keyof ParsedMenu {
   const v = vi.toLowerCase();
   if (v.includes("lẩu")) return "hotpot";
@@ -79,7 +101,8 @@ function detectCategory(vi: string): keyof ParsedMenu {
     v.includes("gà nướng") ||
     v.includes("gà hấp") ||
     v.includes("gà sốt") ||
-    v.includes("gà bó xôi")
+    v.includes("gà bó xôi") ||
+    v.includes("gà rang")
   )
     return "grilled";
   if (v.includes("bò")) return "beef";
@@ -87,16 +110,26 @@ function detectCategory(vi: string): keyof ParsedMenu {
     v.includes("heo") ||
     v.includes("sườn") ||
     v.includes("chạo") ||
-    v.includes("ba chỉ")
+    v.includes("ba chỉ") ||
+    v.includes("thịt quay")
   )
     return "pork";
   if (
     v.includes("cơm") ||
     v.includes("miến") ||
     v.includes("mì") ||
-    v.includes("khoai tây")
+    v.includes("khoai tây") ||
+    v.includes("bún")
   )
     return "rice";
+  if (
+    v.includes("bia") ||
+    v.includes("nước") ||
+    v.includes("trà") ||
+    v.includes("sinh tố") ||
+    v.includes("nước ngọt")
+  )
+    return "drinks" as keyof ParsedMenu;
   return "sides";
 }
 
@@ -104,16 +137,27 @@ interface RawItem {
   lines: string[];
 }
 
-export async function parseMenuDocx(
-  buffer: Buffer
-): Promise<ParsedMenu> {
+export async function parseMenuDocx(buffer: Buffer): Promise<ParsedMenu> {
   const result = await mammoth.extractRawText({ buffer });
   const rawText = result.value;
-
   return parseMenuText(rawText);
 }
 
+export async function extractRawText(buffer: Buffer): Promise<string> {
+  const result = await mammoth.extractRawText({ buffer });
+  return result.value;
+}
+
 export function parseMenuText(rawText: string): ParsedMenu {
+  const menu = parseNumberedMultilang(rawText);
+
+  const totalItems = Object.values(menu).reduce((s, a) => s + a.length, 0);
+  if (totalItems > 0) return menu;
+
+  return parseSimpleFormat(rawText);
+}
+
+function parseNumberedMultilang(rawText: string): ParsedMenu {
   const menu: ParsedMenu = {
     grilled: [],
     hotpot: [],
@@ -130,7 +174,6 @@ export function parseMenuText(rawText: string): ParsedMenu {
     .filter(Boolean);
 
   let inDrinksSection = false;
-
   const itemMap = new Map<string, RawItem>();
 
   for (const line of lines) {
@@ -155,11 +198,83 @@ export function parseMenuText(rawText: string): ParsedMenu {
 
   for (const [key, item] of itemMap.entries()) {
     const isDrink = key.startsWith("d-");
-
     if (isDrink) {
       parseDrinkLines(item.lines, menu.drinks);
     } else {
       parseFoodLines(item.lines, menu);
+    }
+  }
+
+  return menu;
+}
+
+function parseSimpleFormat(rawText: string): ParsedMenu {
+  const menu: ParsedMenu = {
+    grilled: [],
+    hotpot: [],
+    beef: [],
+    pork: [],
+    sides: [],
+    rice: [],
+    drinks: [],
+  };
+
+  const lines = rawText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  let inDrinksSection = false;
+
+  for (const line of lines) {
+    if (/^(BIA[\s\-]|NƯỚC[\s\-]|ĐỒ UỐNG)/i.test(line)) {
+      inDrinksSection = true;
+      continue;
+    }
+
+    const stripped = line.replace(/^\d+[\s.。、)）]+/, "").trim();
+    if (!stripped) continue;
+
+    const colonIdx = stripped.lastIndexOf(":");
+    let name = stripped;
+    let priceStr = "";
+
+    if (colonIdx !== -1) {
+      name = stripped.slice(0, colonIdx).trim();
+      priceStr = stripped.slice(colonIdx + 1).trim();
+    } else {
+      const priceMatch = stripped.match(/^(.+?)\s{2,}([\d][\d.,\/\-\s]+)$/);
+      if (priceMatch) {
+        name = priceMatch[1].trim();
+        priceStr = priceMatch[2].trim();
+      }
+    }
+
+    if (!name || name.length < 2) continue;
+
+    if (hasChinese(name) || hasKorean(name) || hasCyrillic(name)) continue;
+
+    const price = parsePriceFromLine(priceStr || line);
+    if (!price) continue;
+
+    name = name.replace(/\/$/, "").trim();
+
+    if (inDrinksSection) {
+      menu.drinks.push({ name, price: typeof price === "number" ? price : price.half });
+    } else {
+      const category = detectCategory(name);
+      if (category === "drinks") {
+        menu.drinks.push({ name, price: typeof price === "number" ? price : price.half });
+      } else {
+        (menu[category] as MenuItem[]).push({
+          vi: name,
+          en: name,
+          ko: "",
+          zh: "",
+          ru: "",
+          price,
+        });
+      }
     }
   }
 
@@ -208,7 +323,6 @@ function parseDrinkLines(lines: string[], drinks: DrinkItem[]): void {
 function parseFoodLines(lines: string[], menu: ParsedMenu): void {
   const langs = { vi: "", en: "", zh: "", ko: "", ru: "" };
 
-  let priceRaw = "";
   let firstPrice: number | { half: number; whole: number } | null = null;
 
   for (const line of lines) {
@@ -216,7 +330,6 @@ function parseFoodLines(lines: string[], menu: ParsedMenu): void {
     const p = parsePrice(pr);
     if (!firstPrice && p) {
       firstPrice = p;
-      priceRaw = pr;
     }
 
     if (hasChinese(line)) {
