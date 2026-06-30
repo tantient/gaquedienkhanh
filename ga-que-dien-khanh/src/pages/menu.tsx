@@ -62,8 +62,10 @@ const LABELS: Record<Lang, {
     hotpot: "Lẩu Gà",
     beef: "Các Món Bò",
     pork: "Các Món Heo",
-    sides: "Món Ăn Kèm",
-    rice: "Cơm & Mì",
+    squid: "Các Món Mực",
+    shrimp: "Các Món Tôm",
+    sides: "Khai Vị & Gỏi",
+    rice: "Món Ăn Kèm",
     drinks: "Bia & Nước Giải Khát",
     half: "Nửa con",
     whole: "Nguyên con",
@@ -78,8 +80,10 @@ const LABELS: Record<Lang, {
     hotpot: "Chicken Hotpot",
     beef: "Beef Dishes",
     pork: "Pork Dishes",
-    sides: "Sides & Small Plates",
-    rice: "Rice & Noodles",
+    squid: "Squid Dishes",
+    shrimp: "Shrimp Dishes",
+    sides: "Starters & Salads",
+    rice: "Sides & Extras",
     drinks: "Beer & Beverages",
     half: "Half",
     whole: "Whole",
@@ -94,8 +98,10 @@ const LABELS: Record<Lang, {
     hotpot: "닭 샤부샤부",
     beef: "소고기 요리",
     pork: "돼지고기 요리",
-    sides: "사이드 & 소플레이트",
-    rice: "밥 & 면",
+    squid: "오징어 요리",
+    shrimp: "새우 요리",
+    sides: "전채 & 샐러드",
+    rice: "사이드 & 추가",
     drinks: "맥주 & 음료",
     half: "반 마리",
     whole: "한 마리",
@@ -110,8 +116,10 @@ const LABELS: Record<Lang, {
     hotpot: "鸡肉火锅",
     beef: "牛肉料理",
     pork: "猪肉料理",
-    sides: "小食 & 配菜",
-    rice: "米饭 & 面条",
+    squid: "鱿鱼料理",
+    shrimp: "虾类料理",
+    sides: "前菜 & 沙拉",
+    rice: "配菜 & 小吃",
     drinks: "啤酒 & 饮料",
     half: "半只",
     whole: "整只",
@@ -126,8 +134,10 @@ const LABELS: Record<Lang, {
     hotpot: "Куриный фондю",
     beef: "Блюда из говядины",
     pork: "Блюда из свинины",
-    sides: "Закуски & Гарниры",
-    rice: "Рис & Лапша",
+    squid: "Блюда из кальмара",
+    shrimp: "Блюда из креветок",
+    sides: "Закуски & Салаты",
+    rice: "Гарниры & Добавки",
     drinks: "Пиво & Напитки",
     half: "Половина",
     whole: "Целая",
@@ -301,7 +311,43 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* 05. Món Ăn Kèm */}
+              {/* 05. Các Món Mực */}
+              <motion.div variants={fadeIn} data-testid="section-squid">
+                <SectionHeading label={tx.squid} />
+                <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
+                  {menuItems.squid?.map((item, i) => (
+                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-squid-${i}`}>
+                      <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
+                        <div>
+                          <span className="font-medium text-foreground">{item[lang]}</span>
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                        </div>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}/{tx.perPlate}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* 06. Các Món Tôm */}
+              <motion.div variants={fadeIn} data-testid="section-shrimp">
+                <SectionHeading label={tx.shrimp} />
+                <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
+                  {menuItems.shrimp?.map((item, i) => (
+                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-shrimp-${i}`}>
+                      <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
+                        <div>
+                          <span className="font-medium text-foreground">{item[lang]}</span>
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                        </div>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}/{tx.perPlate}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* 07. Khai Vị & Gỏi */}
               <motion.div variants={fadeIn} data-testid="section-sides">
                 <SectionHeading label={tx.sides} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">

@@ -138,6 +138,46 @@ export const menuItems = {
       price: 169000,
     },
   ],
+  squid: [
+    {
+      vi: "Mực hấp gừng",
+      en: "Steamed Squid with Ginger",
+      ko: "생강찜 오징어",
+      zh: "姜蒸鱿鱼",
+      ru: "Кальмар на пару с имбирём",
+      price: 179000,
+      isBestSeller: false,
+    },
+    {
+      vi: "Mực nướng sa tế",
+      en: "Grilled Squid with Satay Sauce",
+      ko: "사테소스 오징어구이",
+      zh: "沙嗲烤鱿鱼",
+      ru: "Кальмар-гриль с соусом сатэ",
+      price: 179000,
+      isBestSeller: false,
+    },
+  ],
+  shrimp: [
+    {
+      vi: "Tôm hấp",
+      en: "Steamed Shrimp",
+      ko: "새우찜",
+      zh: "蒸虾",
+      ru: "Креветки на пару",
+      price: 169000,
+      isBestSeller: false,
+    },
+    {
+      vi: "Tôm nướng muối ớt",
+      en: "Grilled Shrimp with Chili Salt",
+      ko: "소금고추 새우구이",
+      zh: "辣椒盐烤虾",
+      ru: "Креветки-гриль с солью и перцем чили",
+      price: 169000,
+      isBestSeller: false,
+    },
+  ],
   sides: [
     {
       vi: "Gỏi bò rau má",

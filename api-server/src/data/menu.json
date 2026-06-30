@@ -6,7 +6,8 @@
       "ko": "토종닭 소금고추구이",
       "zh": "辣椒盐烤土鸡",
       "ru": "Деревенская курица-гриль с солью и перцем чили",
-      "price": 199000
+      "price": { "half": 199000, "whole": 379000 },
+      "isBestSeller": true
     },
     {
       "vi": "Gà ta hấp hành",
@@ -14,7 +15,8 @@
       "ko": "토종닭 파찜",
       "zh": "葱蒸土鸡",
       "ru": "Деревенская курица на пару с зелёным луком",
-      "price": 199000
+      "price": { "half": 199000, "whole": 379000 },
+      "isBestSeller": false
     },
     {
       "vi": "Gà ta sốt bơ tỏi",
@@ -22,33 +24,28 @@
       "ko": "토종닭 버터마늘소스",
       "zh": "蒜香黄油酱土鸡",
       "ru": "Деревенская курица в чесночно-сливочном соусе",
-      "price": 199000
-    },
-    {
-      "vi": "Lòng gà bó xôi",
-      "en": "Sticky Rice Wrapped Chicken Offal",
-      "ko": "찹쌀을 곁들인 닭내장",
-      "zh": "鸡杂糯米包",
-      "ru": "Куриные потроха с клейким рисом",
-      "price": 69000
+      "price": { "half": 199000, "whole": 379000 },
+      "isBestSeller": false
     }
   ],
   "hotpot": [
     {
       "vi": "Lẩu gà ta lá é",
-      "en": "Household Chicken Hot Pot with Green basil",
+      "en": "Household Chicken Hot Pot with Green Basil",
       "ko": "토종닭 에잎 샤브샤브",
-      "zh": "柠檬罗勒土鸡火锅/",
+      "zh": "柠檬罗勒土鸡火锅",
       "ru": "Лау из деревенской курицы с листьями базилика",
-      "price": 199000
+      "price": { "half": 199000, "whole": 379000 },
+      "isBestSeller": true
     },
     {
       "vi": "Lẩu gà ta lá giang",
-      "en": "Household Chicken Hot Pot with Sour-soup creeper",
-      "ko": "토종닭 라장잎 샤브샤브:",
-      "zh": "酸叶土鸡火锅/",
+      "en": "Household Chicken Hot Pot with Sour-soup Creeper",
+      "ko": "토종닭 라장잎 샤브샤브",
+      "zh": "酸叶土鸡火锅",
       "ru": "Лау из деревенской курицы с листьями ла Зянг",
-      "price": 199000
+      "price": { "half": 199000, "whole": 379000 },
+      "isBestSeller": false
     }
   ],
   "beef": [
@@ -58,7 +55,8 @@
       "ko": "깍둑썰기 소고기 볶음",
       "zh": "黑椒牛柳粒",
       "ru": "Жареная говядина с овощами",
-      "price": 179000
+      "price": 179000,
+      "isBestSeller": false
     },
     {
       "vi": "Bò nướng",
@@ -66,7 +64,8 @@
       "ko": "소고기구이",
       "zh": "烤牛肉",
       "ru": "Говядина-гриль",
-      "price": 179000
+      "price": 179000,
+      "isBestSeller": false
     },
     {
       "vi": "Bò kéo pháo",
@@ -74,7 +73,8 @@
       "ko": "소고기와 베트남 가지절임 무침",
       "zh": "拉炮牛肉",
       "ru": "Салат из говядины с маринованным тайским баклажаном",
-      "price": 179000
+      "price": 179000,
+      "isBestSeller": false
     },
     {
       "vi": "Mì xào thịt bò",
@@ -82,49 +82,19 @@
       "ko": "소고기 볶음면",
       "zh": "牛肉炒面",
       "ru": "Жареная лапша с говядиной",
-      "price": 99000
-    },
-    {
-      "vi": "Gỏi bò rau má",
-      "en": "Beef Salad with Pennywort",
-      "ko": "소고기·병풀 샐러드",
-      "zh": "牛肉积雪草沙拉",
-      "ru": "Салат из говядины с центеллой азиатской",
-      "price": 129000
+      "price": 99000,
+      "isBestSeller": false
     }
   ],
   "pork": [
-    {
-      "vi": "Bắp heo chiên giòn",
-      "en": "Crispy Fried Pork Knuckle",
-      "ko": "돼지 앞다리살 바삭튀김",
-      "zh": "脆炸猪肘",
-      "ru": "Хрустящая жареная свиная рулька",
-      "price": 139000
-    },
     {
       "vi": "Sườn non nướng",
       "en": "Grilled Pork Ribs",
       "ko": "갈비구이",
       "zh": "烤排骨",
       "ru": "Свиные рёбрышки-гриль",
-      "price": 169000
-    },
-    {
-      "vi": "Chạo heo mía quê",
-      "en": "Rustic Grilled Minced Pork on Sugarcane",
-      "ko": "사탕수수 돼지고기구이",
-      "zh": "猪肉甘蔗卷",
-      "ru": "Свиные колбаски на сахарном тростнике по-деревенски",
-      "price": 99000
-    },
-    {
-      "vi": "Gỏi bao tử heo",
-      "en": "Pork Stomach Salad",
-      "ko": "돼지 위 샐러드",
-      "zh": "猪肚沙拉",
-      "ru": "Салат из свиного желудка",
-      "price": 129000
+      "price": 169000,
+      "isBestSeller": false
     },
     {
       "vi": "Ba chỉ nướng",
@@ -132,7 +102,102 @@
       "ko": "삼겹살구이",
       "zh": "烤五花肉",
       "ru": "Свиная грудинка-гриль",
-      "price": 129000
+      "price": 129000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Bắp heo chiên giòn",
+      "en": "Crispy Fried Pork Knuckle",
+      "ko": "돼지 앞다리살 바삭튀김",
+      "zh": "脆炸猪肘",
+      "ru": "Хрустящая жареная свиная рулька",
+      "price": 139000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Chạo heo mía quê",
+      "en": "Rustic Grilled Minced Pork on Sugarcane",
+      "ko": "사탕수수 돼지고기구이",
+      "zh": "猪肉甘蔗卷",
+      "ru": "Свиные колбаски на сахарном тростнике по-деревенски",
+      "price": 99000,
+      "isBestSeller": false
+    }
+  ],
+  "squid": [
+    {
+      "vi": "Mực hấp gừng",
+      "en": "Steamed Squid with Ginger",
+      "ko": "생강찜 오징어",
+      "zh": "姜蒸鱿鱼",
+      "ru": "Кальмар на пару с имбирём",
+      "price": 179000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Mực nướng sa tế",
+      "en": "Grilled Squid with Satay Sauce",
+      "ko": "사테소스 오징어구이",
+      "zh": "沙嗲烤鱿鱼",
+      "ru": "Кальмар-гриль с соусом сатэ",
+      "price": 179000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Mực nướng muối ớt",
+      "en": "Grilled Squid with Chili Salt",
+      "ko": "소금고추 오징어구이",
+      "zh": "辣椒盐烤鱿鱼",
+      "ru": "Кальмар-гриль с солью и перцем чили",
+      "price": 179000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Mực chiên mắm",
+      "en": "Fried Squid with Fish Sauce",
+      "ko": "액젓 오징어튀김",
+      "zh": "鱼露炸鱿鱼",
+      "ru": "Жареный кальмар в рыбном соусе",
+      "price": 179000,
+      "isBestSeller": false
+    }
+  ],
+  "shrimp": [
+    {
+      "vi": "Tôm hấp",
+      "en": "Steamed Shrimp",
+      "ko": "새우찜",
+      "zh": "蒸虾",
+      "ru": "Креветки на пару",
+      "price": 169000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Tôm nướng muối ớt",
+      "en": "Grilled Shrimp with Chili Salt",
+      "ko": "소금고추 새우구이",
+      "zh": "辣椒盐烤虾",
+      "ru": "Креветки-гриль с солью и перцем чили",
+      "price": 169000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Tôm cháy tỏi",
+      "en": "Stir-fried Shrimp with Garlic",
+      "ko": "마늘새우볶음",
+      "zh": "蒜香虾",
+      "ru": "Креветки, обжаренные с чесноком",
+      "price": 169000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Tôm nướng sa tế",
+      "en": "Grilled Shrimp with Satay Sauce",
+      "ko": "사테소스 새우구이",
+      "zh": "沙嗲烤虾",
+      "ru": "Креветки-гриль с соусом сатэ",
+      "price": 169000,
+      "isBestSeller": false
     }
   ],
   "sides": [
@@ -142,7 +207,26 @@
       "ko": "새우·돼지고기 짜조",
       "zh": "虾肉春卷",
       "ru": "Жареные спринг-роллы с креветками и свининой",
-      "price": 99000
+      "price": 99000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Gỏi bò rau má",
+      "en": "Beef Salad with Pennywort",
+      "ko": "소고기·병풀 샐러드",
+      "zh": "牛肉积雪草沙拉",
+      "ru": "Салат из говядины с центеллой азиатской",
+      "price": 129000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Gỏi bao tử heo",
+      "en": "Pork Stomach Salad",
+      "ko": "돼지 위 샐러드",
+      "zh": "猪肚沙拉",
+      "ru": "Салат из свиного желудка",
+      "price": 129000,
+      "isBestSeller": false
     },
     {
       "vi": "Gỏi hải sản",
@@ -150,71 +234,19 @@
       "ko": "해산물 샐러드",
       "zh": "海鲜沙拉",
       "ru": "Салат с морепродуктами",
-      "price": 149000
-    },
+      "price": 149000,
+      "isBestSeller": false
+    }
+  ],
+  "rice": [
     {
-      "vi": "Mực hấp gừng",
-      "en": "Steamed Squid with Ginger",
-      "ko": "생강찜 오징어",
-      "zh": "姜蒸鱿鱼",
-      "ru": "Кальмар на пару с имбирём",
-      "price": 179000
-    },
-    {
-      "vi": "Mực nướng sa tế",
-      "en": "Grilled Squid with Satay Sauce",
-      "ko": "사테소스 오징어구이",
-      "zh": "沙嗲烤鱿鱼",
-      "ru": "Кальмар-гриль с соусом сатэ",
-      "price": 179000
-    },
-    {
-      "vi": "Mực nướng muối ớt",
-      "en": "Grilled Squid with Chili Salt",
-      "ko": "소금고추 오징어구이",
-      "zh": "辣椒盐烤鱿鱼 /",
-      "ru": "Кальмар-гриль с солью и перцем чили",
-      "price": 179000
-    },
-    {
-      "vi": "Mực chiên mắm",
-      "en": "Fried Squid with Fish Sauce",
-      "ko": "액젓 오징어튀김",
-      "zh": "鱼露炸鱿鱼",
-      "ru": "Жареный кальмар в рыбном соусе",
-      "price": 179000
-    },
-    {
-      "vi": "Tôm hấp",
-      "en": "Steamed Shrimp",
-      "ko": "새우찜",
-      "zh": "蒸虾",
-      "ru": "Креветки на пару",
-      "price": 169000
-    },
-    {
-      "vi": "Tôm nướng muối ớt",
-      "en": "Grilled Shrimp with Chili Salt",
-      "ko": "소금고추 새우구이",
-      "zh": "辣椒盐烤虾",
-      "ru": "Креветки-гриль с солью и перцем чили",
-      "price": 169000
-    },
-    {
-      "vi": "Tôm cháy tỏi",
-      "en": "Stir-fried Shrimp with Garlic",
-      "ko": "마늘새우볶음",
-      "zh": "蒜香虾",
-      "ru": "Креветки, обжаренные с чесноком",
-      "price": 169000
-    },
-    {
-      "vi": "Tôm nướng sa tế",
-      "en": "Grilled Shrimp with Satay Sauce",
-      "ko": "사테소스 새우구이",
-      "zh": "沙嗲烤虾",
-      "ru": "Креветки-гриль с соусом сатэ",
-      "price": 169000
+      "vi": "Lòng gà bó xôi",
+      "en": "Sticky Rice Wrapped Chicken Offal",
+      "ko": "찹쌀을 곁들인 닭내장",
+      "zh": "鸡杂糯米包",
+      "ru": "Куриные потроха с клейким рисом",
+      "price": 69000,
+      "isBestSeller": false
     },
     {
       "vi": "Lòng gà xào mướp",
@@ -222,41 +254,17 @@
       "ko": "수세미오이 닭내장볶음",
       "zh": "丝瓜炒鸡杂",
       "ru": "Куриные потроха, жаренные с люффой",
-      "price": 69000
-    }
-  ],
-  "rice": [
+      "price": 69000,
+      "isBestSeller": false
+    },
     {
       "vi": "Miến xào lòng gà",
       "en": "Glass Noodles Stir-Fried with Chicken Offal",
       "ko": "닭내장 볶음당면",
       "zh": "鸡杂炒粉丝",
       "ru": "Жареная стеклянная лапша с куриными потрохами",
-      "price": 79000
-    },
-    {
-      "vi": "Cơm chiên hải sản",
-      "en": "Seafood Fried Rice",
-      "ko": "해산물 볶음밥",
-      "zh": "海鲜炒饭",
-      "ru": "Жареный рис с морепродуктами",
-      "price": 129000
-    },
-    {
-      "vi": "Cơm chiên muối é",
-      "en": "Salt Fried Rice with green basil",
-      "ko": "에잎 볶음밥",
-      "zh": "柠檬罗勒盐炒饭",
-      "ru": "Жареный рис с солью и листьями базилика",
-      "price": 59000
-    },
-    {
-      "vi": "Cơm chiên trứng",
-      "en": "Egg Fried Rice",
-      "ko": "계란볶음밥",
-      "zh": "蛋炒饭",
-      "ru": "Жареный рис с яйцом",
-      "price": 59000
+      "price": 79000,
+      "isBestSeller": false
     },
     {
       "vi": "Khoai tây chiên",
@@ -264,73 +272,47 @@
       "ko": "감자튀김",
       "zh": "炸薯条",
       "ru": "Картофель фри",
-      "price": 59000
+      "price": 59000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Cơm chiên muối é",
+      "en": "Salt Fried Rice with Green Basil",
+      "ko": "에잎 볶음밥",
+      "zh": "柠檬罗勒盐炒饭",
+      "ru": "Жареный рис с солью и листьями базилика",
+      "price": 59000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Cơm chiên trứng",
+      "en": "Egg Fried Rice",
+      "ko": "계란볶음밥",
+      "zh": "蛋炒饭",
+      "ru": "Жареный рис с яйцом",
+      "price": 59000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Cơm chiên hải sản",
+      "en": "Seafood Fried Rice",
+      "ko": "해산물 볶음밥",
+      "zh": "海鲜炒饭",
+      "ru": "Жареный рис с морепродуктами",
+      "price": 129000,
+      "isBestSeller": false
     }
   ],
   "drinks": [
-    {
-      "name": {
-        "vi": "Heineken lon 330ml",
-        "en": "Heineken Can 330 ml"
-      },
-      "price": 26000
-    },
-    {
-      "name": {
-        "vi": "Heineken lon 250ml",
-        "en": "Heineken Can 250 ml"
-      },
-      "price": 22000
-    },
-    {
-      "name": {
-        "vi": "Tiger bạc lon 330ml",
-        "en": "Tiger Silver Can 330 ml"
-      },
-      "price": 23000
-    },
-    {
-      "name": {
-        "vi": "Tiger nâu lon 330ml",
-        "en": "Tiger Brown Can 330 ml"
-      },
-      "price": 22000
-    },
-    {
-      "name": {
-        "vi": "Sài gòn lon 330ml",
-        "en": "Saigon Beer Can 330 ml"
-      },
-      "price": 19000
-    },
-    {
-      "name": {
-        "vi": "Sài gòn chill 250ml",
-        "en": "Saigon Chill Can 250 ml"
-      },
-      "price": 20000
-    },
-    {
-      "name": {
-        "vi": "Sài gòn 333 bạc 250ml",
-        "en": "Saigon 333 Silver Can 250 ml"
-      },
-      "price": 18000
-    },
-    {
-      "name": "7 Up",
-      "price": 15000
-    },
-    {
-      "name": "Coca cola",
-      "price": 15000
-    },
-    {
-      "name": {
-        "vi": "Nước suối/Bottled spring water",
-        "en": "Bottled Spring Water"
-      },
-      "price": 10000
-    }
+    { "name": { "vi": "Heineken lon 330ml", "en": "Heineken Can 330ml" }, "price": 26000 },
+    { "name": { "vi": "Heineken lon 250ml", "en": "Heineken Can 250ml" }, "price": 22000 },
+    { "name": { "vi": "Tiger bạc lon 330ml", "en": "Tiger Silver Can 330ml" }, "price": 23000 },
+    { "name": { "vi": "Tiger nâu lon 330ml", "en": "Tiger Brown Can 330ml" }, "price": 22000 },
+    { "name": { "vi": "Sài Gòn lon 330ml", "en": "Saigon Beer Can 330ml" }, "price": 19000 },
+    { "name": { "vi": "Sài Gòn Chill 250ml", "en": "Saigon Chill Can 250ml" }, "price": 20000 },
+    { "name": { "vi": "Sài Gòn 333 bạc 250ml", "en": "Saigon 333 Silver Can 250ml" }, "price": 18000 },
+    { "name": { "vi": "7Up", "en": "7Up" }, "price": 15000 },
+    { "name": { "vi": "Coca Cola", "en": "Coca Cola" }, "price": 15000 },
+    { "name": { "vi": "Nước suối", "en": "Bottled Spring Water", "ko": "생수", "zh": "矿泉水", "ru": "Вода" }, "price": 10000 }
   ]
 }
