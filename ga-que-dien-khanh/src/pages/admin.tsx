@@ -7,6 +7,7 @@ const API = `${BASE}/api/blog`;
 const AUTH_API = `${BASE}/api/auth`;
 const RATING_API = `${BASE}/api/rating`;
 const BANNER_API = `${BASE}/api/banner`;
+const MENU_API = `${BASE}/api/menu`;
 
 interface RatingData {
   google_rating: number;
@@ -96,6 +97,13 @@ export default function Admin() {
   const [bannerSaved, setBannerSaved] = useState(false);
   const [bannerError, setBannerError] = useState("");
 
+  const [menuFile, setMenuFile] = useState<File | null>(null);
+  const [menuUploading, setMenuUploading] = useState(false);
+  const [menuUploaded, setMenuUploaded] = useState(false);
+  const [menuError, setMenuError] = useState("");
+  const [menuPreview, setMenuPreview] = useState<{ category: string; count: number }[] | null>(null);
+  const menuFileRef = useRef<HTMLInputElement>(null);
+
   function authHeader(tk: string) {
     return { Authorization: `Bearer ${tk}` };
   }
@@ -144,6 +152,49 @@ export default function Admin() {
       setBannerError("Không thể kết nối server");
     }
     setBannerSaving(false);
+  }
+
+  async function uploadMenu() {
+    if (!token || !menuFile) return;
+    setMenuError("");
+    setMenuUploading(true);
+    setMenuPreview(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", menuFile);
+      const res = await fetch(`${MENU_API}/upload`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      if (res.ok) {
+        const data = await res.json() as { ok: boolean; menu: Record<string, unknown[]> };
+        const LABELS_MAP: Record<string, string> = {
+          grilled: "Các Món Gà",
+          hotpot: "Lẩu Gà",
+          beef: "Các Món Bò",
+          pork: "Các Món Heo",
+          sides: "Món Ăn Kèm",
+          rice: "Cơm & Mì",
+          drinks: "Bia & Nước",
+        };
+        setMenuPreview(
+          Object.entries(data.menu)
+            .filter(([, arr]) => Array.isArray(arr))
+            .map(([cat, arr]) => ({ category: LABELS_MAP[cat] ?? cat, count: (arr as unknown[]).length }))
+        );
+        setMenuFile(null);
+        if (menuFileRef.current) menuFileRef.current.value = "";
+        setMenuUploaded(true);
+        setTimeout(() => setMenuUploaded(false), 4000);
+      } else {
+        const d = await res.json() as { error: string };
+        setMenuError(d.error ?? "Lỗi khi upload file");
+      }
+    } catch {
+      setMenuError("Không thể kết nối server");
+    }
+    setMenuUploading(false);
   }
 
   async function saveRating() {
@@ -639,6 +690,86 @@ export default function Admin() {
           className="px-8 py-3 rounded-sm text-sm font-semibold bg-accent text-white hover:bg-accent/85 transition-colors disabled:opacity-60">
           {ratingSaving ? "Đang lưu..." : "Lưu Đánh Giá"}
         </button>
+      </div>
+
+      {/* Menu Upload */}
+      <div className="bg-white rounded-sm shadow-sm border border-border/50 p-8 mt-6">
+        <h2 className="font-semibold text-lg text-foreground mb-1 flex items-center gap-2">
+          📄 Cập Nhật Thực Đơn từ File Word
+        </h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          Upload file <code className="bg-muted px-1 py-0.5 rounded text-xs">.docx</code> để cập nhật thực đơn trên website. Hệ thống tự động phân tích tên món, giá và phân loại theo danh mục.
+        </p>
+
+        <div className="border-2 border-dashed border-border rounded-sm p-6 text-center mb-5 hover:border-primary/50 transition-colors">
+          <input
+            ref={menuFileRef}
+            type="file"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            className="hidden"
+            id="menu-file-input"
+            onChange={(e) => {
+              const f = e.target.files?.[0] ?? null;
+              setMenuFile(f);
+              setMenuError("");
+              setMenuPreview(null);
+            }}
+          />
+          <label htmlFor="menu-file-input" className="cursor-pointer">
+            {menuFile ? (
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-2xl">📝</span>
+                <div className="text-left">
+                  <p className="font-medium text-foreground text-sm">{menuFile.name}</p>
+                  <p className="text-xs text-muted-foreground">{(menuFile.size / 1024).toFixed(1)} KB</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => { e.preventDefault(); setMenuFile(null); if (menuFileRef.current) menuFileRef.current.value = ""; }}
+                  className="ml-2 text-muted-foreground hover:text-red-500 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p className="text-3xl mb-2">📂</p>
+                <p className="text-sm font-medium text-foreground">Chọn file Word (.docx)</p>
+                <p className="text-xs text-muted-foreground mt-1">hoặc kéo thả vào đây</p>
+              </div>
+            )}
+          </label>
+        </div>
+
+        {menuError && <p className="text-red-500 text-sm mb-4">{menuError}</p>}
+
+        {menuUploaded && menuPreview && (
+          <div className="bg-green-50 border border-green-200 rounded-sm p-4 mb-4">
+            <p className="text-green-700 font-semibold text-sm flex items-center gap-2 mb-3">
+              <CheckCircle size={16} /> Cập nhật thực đơn thành công!
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {menuPreview.map((p) => (
+                <div key={p.category} className="bg-white rounded border border-green-100 px-3 py-2 text-xs">
+                  <p className="font-medium text-foreground">{p.category}</p>
+                  <p className="text-muted-foreground">{p.count} món</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <button
+          onClick={uploadMenu}
+          disabled={!menuFile || menuUploading}
+          className="px-8 py-3 rounded-sm text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/85 transition-colors disabled:opacity-50"
+        >
+          {menuUploading ? "Đang xử lý..." : "Upload & Cập Nhật Thực Đơn"}
+        </button>
+
+        <p className="text-xs text-muted-foreground mt-3">
+          ⚠️ Lưu ý: Chỉ các danh mục có dữ liệu mới trong file sẽ được cập nhật. Danh mục không có trong file sẽ giữ nguyên.
+        </p>
       </div>
 
       </div>

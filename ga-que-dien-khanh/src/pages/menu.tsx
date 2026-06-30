@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import { useLang } from "@/context/LanguageContext";
 import { useSEO } from "@/hooks/useSEO";
 import { useBanner } from "@/hooks/useBanner";
-import { menuItems, fmt } from "@/lib/translations";
+import { fmt } from "@/lib/translations";
 import type { Lang } from "@/lib/translations";
+import { useMenu } from "@/hooks/useMenu";
 import heroImg from "../assets/images/hero.png";
 import hotpotImg from "../assets/images/hotpot.png";
 import grilledChickenImg from "../assets/images/grilled_chicken.png";
@@ -158,6 +159,7 @@ export default function Menu() {
   const seo = SEO_MENU[lang] ?? SEO_MENU.vi;
   useSEO({ title: seo.title, description: seo.description, canonical: "https://gaquedienkhanh.com/menu" });
   const bannerUrl = useBanner();
+  const { menu: menuItems } = useMenu();
 
   return (
     <div className="min-h-screen bg-background text-foreground pt-16">

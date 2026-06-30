@@ -4,6 +4,7 @@ import path from "path";
 import crypto from "crypto";
 import https from "https";
 import { fileURLToPath } from "url";
+import { sessions, createSession, isValidSession, requireAuth } from "../lib/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.join(__dirname, "../src/data/blog-posts.json");
@@ -49,9 +50,6 @@ function writeBanner(data: BannerData) {
 
 const router = Router();
 
-const SESSION_TTL = 24 * 60 * 60 * 1000;
-const sessions = new Map<string, number>();
-
 const RATE_WINDOW = 15 * 60 * 1000;
 const RATE_LIMIT = 10;
 const attempts = new Map<string, { count: number; resetAt: number }>();
@@ -74,29 +72,6 @@ function checkRateLimit(ip: string): boolean {
 
 function resetRateLimit(ip: string) {
   attempts.delete(ip);
-}
-
-function createSession(): string {
-  const token = crypto.randomBytes(32).toString("hex");
-  sessions.set(token, Date.now() + SESSION_TTL);
-  return token;
-}
-
-function isValidSession(token: string): boolean {
-  const expiry = sessions.get(token);
-  if (!expiry) return false;
-  if (Date.now() > expiry) { sessions.delete(token); return false; }
-  return true;
-}
-
-function requireAuth(req: import("express").Request, res: import("express").Response): string | null {
-  const auth = req.headers["authorization"];
-  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
-  if (!token || !isValidSession(token)) {
-    res.status(401).json({ error: "Unauthorized" });
-    return null;
-  }
-  return token;
 }
 
 function readPosts() {

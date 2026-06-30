@@ -3,7 +3,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronDown, Star, ArrowRight } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
-import { menuItems, fmt, BLOG_POSTS } from "@/lib/translations";
+import { fmt, BLOG_POSTS } from "@/lib/translations";
+import { useMenu } from "@/hooks/useMenu";
 import type { Lang } from "@/lib/translations";
 import { useSEO } from "@/hooks/useSEO";
 import heroImg from "../assets/images/hero.png";
@@ -124,6 +125,7 @@ export default function Home() {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 700], [0, 200]);
   const heroOp = useTransform(scrollY, [0, 400], [1, 0]);
+  const { menu: menuItems } = useMenu();
 
   const allBestSellers = [
     ...menuItems.hotpot.filter((i) => i.isBestSeller),
