@@ -9,10 +9,11 @@ echo "Building backend..."
 cd /home/runner/workspace/api-server && pnpm run build
 cd /home/runner/workspace
 
-# Start backend in background
-echo "Starting backend on port 3000..."
-PORT=3000 NODE_ENV=production node --enable-source-maps api-server/dist/index.mjs &
+# Build frontend (static files -> ga-que-dien-khanh/dist/public)
+echo "Building frontend..."
+pnpm --filter @workspace/ga-que-dien-khanh run build
 
-# Start frontend dev server
-echo "Starting frontend on port 5000..."
-PORT=5000 BASE_PATH=/ pnpm --filter @workspace/ga-que-dien-khanh run dev
+# Start backend — serves both /api and the built frontend
+PORT=${PORT:-5000}
+echo "Starting server on port $PORT..."
+PORT=$PORT NODE_ENV=production node --enable-source-maps api-server/dist/index.mjs
