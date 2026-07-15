@@ -74,7 +74,7 @@
       "zh": "拉炮牛肉",
       "ru": "Салат из говядины с маринованным тайским баклажаном",
       "price": 179000,
-      "isBestSeller": false
+      "isBestSeller": true
     },
     {
       "vi": "Mì xào thịt bò",
@@ -87,6 +87,15 @@
     }
   ],
   "pork": [
+    {
+      "vi": "Bắp heo chiên giòn",
+      "en": "Crispy Fried Pork Knuckle",
+      "ko": "돼지 앞다리살 바삭튀김",
+      "zh": "脆炸猪肘",
+      "ru": "Хрустящая жареная свиная рулька",
+      "price": 139000,
+      "isBestSeller": false
+    },
     {
       "vi": "Sườn non nướng",
       "en": "Grilled Pork Ribs",
@@ -102,15 +111,6 @@
       "ko": "삼겹살구이",
       "zh": "烤五花肉",
       "ru": "Свиная грудинка-гриль",
-      "price": 129000,
-      "isBestSeller": false
-    },
-    {
-      "vi": "Bắp heo chiên giòn",
-      "en": "Crispy Fried Pork Knuckle",
-      "ko": "돼지 앞다리살 바삭튀김",
-      "zh": "脆炸猪肘",
-      "ru": "Хрустящая жареная свиная рулька",
       "price": 139000,
       "isBestSeller": false
     },
@@ -121,6 +121,44 @@
       "zh": "猪肉甘蔗卷",
       "ru": "Свиные колбаски на сахарном тростнике по-деревенски",
       "price": 99000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Chả giò tôm thịt",
+      "en": "Shrimp & Pork Spring Rolls",
+      "ko": "새우·돼지고기 짜조",
+      "zh": "虾肉春卷",
+      "ru": "Жареные спринг-роллы с креветками и свининой",
+      "price": 99000,
+      "isBestSeller": false
+    }
+  ],
+  "sides": [
+    {
+      "vi": "Gỏi bò rau má",
+      "en": "Beef Salad with Pennywort",
+      "ko": "소고기·병풀 샐러드",
+      "zh": "牛肉积雪草沙拉",
+      "ru": "Салат из говядины с центеллой азиатской",
+      "price": 129000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Gỏi bao tử heo",
+      "en": "Pork Stomach Salad",
+      "ko": "돼지 위 샐러드",
+      "zh": "猪肚沙拉",
+      "ru": "Салат из свиного желудка",
+      "price": 129000,
+      "isBestSeller": false
+    },
+    {
+      "vi": "Gỏi hải sản",
+      "en": "Seafood Salad",
+      "ko": "해산물 샐러드",
+      "zh": "海鲜沙拉",
+      "ru": "Салат с морепродуктами",
+      "price": 149000,
       "isBestSeller": false
     }
   ],
@@ -173,15 +211,6 @@
       "isBestSeller": false
     },
     {
-      "vi": "Tôm nướng muối ớt",
-      "en": "Grilled Shrimp with Chili Salt",
-      "ko": "소금고추 새우구이",
-      "zh": "辣椒盐烤虾",
-      "ru": "Креветки-гриль с солью и перцем чили",
-      "price": 169000,
-      "isBestSeller": false
-    },
-    {
       "vi": "Tôm cháy tỏi",
       "en": "Stir-fried Shrimp with Garlic",
       "ko": "마늘새우볶음",
@@ -198,47 +227,18 @@
       "ru": "Креветки-гриль с соусом сатэ",
       "price": 169000,
       "isBestSeller": false
-    }
-  ],
-  "sides": [
-    {
-      "vi": "Chả giò tôm thịt",
-      "en": "Shrimp & Pork Spring Rolls",
-      "ko": "새우·돼지고기 짜조",
-      "zh": "虾肉春卷",
-      "ru": "Жареные спринг-роллы с креветками и свининой",
-      "price": 99000,
-      "isBestSeller": false
     },
     {
-      "vi": "Gỏi bò rau má",
-      "en": "Beef Salad with Pennywort",
-      "ko": "소고기·병풀 샐러드",
-      "zh": "牛肉积雪草沙拉",
-      "ru": "Салат из говядины с центеллой азиатской",
-      "price": 129000,
-      "isBestSeller": false
-    },
-    {
-      "vi": "Gỏi bao tử heo",
-      "en": "Pork Stomach Salad",
-      "ko": "돼지 위 샐러드",
-      "zh": "猪肚沙拉",
-      "ru": "Салат из свиного желудка",
-      "price": 129000,
-      "isBestSeller": false
-    },
-    {
-      "vi": "Gỏi hải sản",
-      "en": "Seafood Salad",
-      "ko": "해산물 샐러드",
-      "zh": "海鲜沙拉",
-      "ru": "Салат с морепродуктами",
-      "price": 149000,
+      "vi": "Tôm nướng muối ớt",
+      "en": "Grilled Shrimp with Chili Salt",
+      "ko": "소금고추 새우구이",
+      "zh": "辣椒盐烤虾",
+      "ru": "Креветки-гриль с солью и перцем чили",
+      "price": 169000,
       "isBestSeller": false
     }
   ],
-  "rice": [
+  "offal": [
     {
       "vi": "Lòng gà bó xôi",
       "en": "Sticky Rice Wrapped Chicken Offal",
@@ -246,7 +246,7 @@
       "zh": "鸡杂糯米包",
       "ru": "Куриные потроха с клейким рисом",
       "price": 69000,
-      "isBestSeller": false
+      "isBestSeller": true
     },
     {
       "vi": "Lòng gà xào mướp",
@@ -259,20 +259,22 @@
     },
     {
       "vi": "Miến xào lòng gà",
-      "en": "Glass Noodles Stir-Fried with Chicken Offal",
+      "en": "Stir-fried Vermicelli with Chicken Offal",
       "ko": "닭내장 볶음당면",
       "zh": "鸡杂炒粉丝",
       "ru": "Жареная стеклянная лапша с куриными потрохами",
       "price": 79000,
       "isBestSeller": false
-    },
+    }
+  ],
+  "rice": [
     {
-      "vi": "Khoai tây chiên",
-      "en": "French Fries",
-      "ko": "감자튀김",
-      "zh": "炸薯条",
-      "ru": "Картофель фри",
-      "price": 59000,
+      "vi": "Cơm chiên hải sản",
+      "en": "Seafood Fried Rice",
+      "ko": "해산물 볶음밥",
+      "zh": "海鲜炒饭",
+      "ru": "Жареный рис с морепродуктами",
+      "price": 129000,
       "isBestSeller": false
     },
     {
@@ -294,12 +296,12 @@
       "isBestSeller": false
     },
     {
-      "vi": "Cơm chiên hải sản",
-      "en": "Seafood Fried Rice",
-      "ko": "해산물 볶음밥",
-      "zh": "海鲜炒饭",
-      "ru": "Жареный рис с морепродуктами",
-      "price": 129000,
+      "vi": "Khoai tây chiên",
+      "en": "French Fries",
+      "ko": "감자튀김",
+      "zh": "炸薯条",
+      "ru": "Картофель фри",
+      "price": 59000,
       "isBestSeller": false
     }
   ],

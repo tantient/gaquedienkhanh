@@ -52,7 +52,7 @@ const stagger = {
 const LABELS: Record<Lang, {
   breadcrumb: string; heroTitle: string; heroSub: string;
   grilled: string; hotpot: string; beef: string; pork: string;
-  squid: string; shrimp: string;
+  squid: string; shrimp: string; offal: string;
   sides: string; rice: string; drinks: string;
   half: string; whole: string; perPlate: string; note: string;
 }> = {
@@ -66,8 +66,9 @@ const LABELS: Record<Lang, {
     pork: "Các Món Heo",
     squid: "Các Món Mực",
     shrimp: "Các Món Tôm",
-    sides: "Khai Vị & Gỏi",
-    rice: "Món Ăn Kèm",
+    offal: "Lòng Gà",
+    sides: "Gỏi & Salad",
+    rice: "Cơm & Khoai",
     drinks: "Bia & Nước Giải Khát",
     half: "Nửa con",
     whole: "Nguyên con",
@@ -84,8 +85,9 @@ const LABELS: Record<Lang, {
     pork: "Pork Dishes",
     squid: "Squid Dishes",
     shrimp: "Shrimp Dishes",
-    sides: "Starters & Salads",
-    rice: "Sides & Extras",
+    offal: "Chicken Offal",
+    sides: "Salads",
+    rice: "Rice & Fries",
     drinks: "Beer & Beverages",
     half: "Half",
     whole: "Whole",
@@ -102,8 +104,9 @@ const LABELS: Record<Lang, {
     pork: "돼지고기 요리",
     squid: "오징어 요리",
     shrimp: "새우 요리",
-    sides: "전채 & 샐러드",
-    rice: "사이드 & 추가",
+    offal: "닭 내장 요리",
+    sides: "샐러드",
+    rice: "밥 & 튀김",
     drinks: "맥주 & 음료",
     half: "반 마리",
     whole: "한 마리",
@@ -120,8 +123,9 @@ const LABELS: Record<Lang, {
     pork: "猪肉料理",
     squid: "鱿鱼料理",
     shrimp: "虾类料理",
-    sides: "前菜 & 沙拉",
-    rice: "配菜 & 小吃",
+    offal: "鸡杂料理",
+    sides: "沙拉",
+    rice: "炒饭 & 薯条",
     drinks: "啤酒 & 饮料",
     half: "半只",
     whole: "整只",
@@ -138,8 +142,9 @@ const LABELS: Record<Lang, {
     pork: "Блюда из свинины",
     squid: "Блюда из кальмара",
     shrimp: "Блюда из креветок",
-    sides: "Закуски & Салаты",
-    rice: "Гарниры & Добавки",
+    offal: "Блюда из потрохов",
+    sides: "Салаты",
+    rice: "Рис & Картофель",
     drinks: "Пиво & Напитки",
     half: "Половина",
     whole: "Целая",
@@ -313,7 +318,25 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* 05. Các Món Mực */}
+              {/* 05. Gỏi & Salad */}
+              <motion.div variants={fadeIn} data-testid="section-sides">
+                <SectionHeading label={tx.sides} />
+                <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
+                  {menuItems.sides?.map((item, i) => (
+                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-side-${i}`}>
+                      <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
+                        <div>
+                          <span className="font-medium text-foreground">{item[lang]}</span>
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                        </div>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}/{tx.perPlate}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* 06. Các Món Mực */}
               <motion.div variants={fadeIn} data-testid="section-squid">
                 <SectionHeading label={tx.squid} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
@@ -331,7 +354,7 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* 06. Các Món Tôm */}
+              {/* 07. Các Món Tôm */}
               <motion.div variants={fadeIn} data-testid="section-shrimp">
                 <SectionHeading label={tx.shrimp} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
@@ -349,12 +372,12 @@ export default function Menu() {
                 </div>
               </motion.div>
 
-              {/* 07. Khai Vị & Gỏi */}
-              <motion.div variants={fadeIn} data-testid="section-sides">
-                <SectionHeading label={tx.sides} />
+              {/* 08. Lòng Gà */}
+              <motion.div variants={fadeIn} data-testid="section-offal">
+                <SectionHeading label={tx.offal} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
-                  {menuItems.sides.map((item, i) => (
-                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-side-${i}`}>
+                  {menuItems.offal?.map((item, i) => (
+                    <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-offal-${i}`}>
                       {DISH_IMAGES[item.vi] && (
                         <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-16 h-16 flex-shrink-0 cursor-zoom-in overflow-hidden">
                           <img src={DISH_IMAGES[item.vi]} alt={item.vi} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
@@ -368,18 +391,18 @@ export default function Menu() {
                             <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap">Best</span>
                           )}
                         </div>
-                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}/{tx.perPlate}</span>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}/{tx.perPlate}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               </motion.div>
 
-              {/* 06. Cơm & Mì */}
+              {/* 09. Cơm & Khoai */}
               <motion.div variants={fadeIn} data-testid="section-rice">
                 <SectionHeading label={tx.rice} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">
-                  {menuItems.rice.map((item, i) => (
+                  {menuItems.rice?.map((item, i) => (
                     <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-rice-${i}`}>
                       {DISH_IMAGES[item.vi] && (
                         <button type="button" onClick={() => setLightbox({ src: DISH_IMAGES[item.vi], alt: item.vi })} className="w-16 h-16 flex-shrink-0 cursor-zoom-in overflow-hidden">
@@ -394,14 +417,14 @@ export default function Menu() {
                             <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap">Best</span>
                           )}
                         </div>
-                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}</span>
+                        <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price as number)}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               </motion.div>
 
-              {/* 07. Bia & Nước */}
+              {/* 10. Bia & Nước */}
               <motion.div variants={fadeIn} data-testid="section-drinks">
                 <SectionHeading label={tx.drinks} />
                 <div className="bg-background rounded-sm overflow-hidden divide-y divide-border/50">

@@ -109,7 +109,7 @@ export default function Admin() {
   type PriceVal = number | { half: number; whole: number };
   type FoodItem = { vi: string; en: string; ko: string; zh: string; ru: string; price: PriceVal; isBestSeller?: boolean };
   type DrinkItem = { name: string | { vi: string; en: string }; price: number };
-  type LiveMenu = { grilled: FoodItem[]; hotpot: FoodItem[]; beef: FoodItem[]; pork: FoodItem[]; squid: FoodItem[]; shrimp: FoodItem[]; sides: FoodItem[]; rice: FoodItem[]; drinks: DrinkItem[] };
+  type LiveMenu = { grilled: FoodItem[]; hotpot: FoodItem[]; beef: FoodItem[]; pork: FoodItem[]; squid: FoodItem[]; shrimp: FoodItem[]; offal: FoodItem[]; sides: FoodItem[]; rice: FoodItem[]; drinks: DrinkItem[] };
 
   const MENU_TABS: { key: keyof LiveMenu; label: string }[] = [
     { key: "grilled", label: "Các Món Gà" },
@@ -118,8 +118,9 @@ export default function Admin() {
     { key: "pork",    label: "Các Món Heo" },
     { key: "squid",   label: "Các Món Mực" },
     { key: "shrimp",  label: "Các Món Tôm" },
-    { key: "sides",   label: "Khai Vị & Gỏi" },
-    { key: "rice",    label: "Món Ăn Kèm" },
+    { key: "offal",   label: "Lòng Gà" },
+    { key: "sides",   label: "Gỏi & Salad" },
+    { key: "rice",    label: "Cơm & Khoai" },
     { key: "drinks",  label: "Bia & Nước" },
   ];
 
@@ -287,8 +288,9 @@ export default function Admin() {
           pork: "Các Món Heo",
           squid: "Các Món Mực",
           shrimp: "Các Món Tôm",
-          sides: "Khai Vị & Gỏi",
-          rice: "Món Ăn Kèm",
+          offal: "Lòng Gà",
+          sides: "Gỏi & Salad",
+          rice: "Cơm & Khoai",
           drinks: "Bia & Nước",
         };
         setMenuPreview(
