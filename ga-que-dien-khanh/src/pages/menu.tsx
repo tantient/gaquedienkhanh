@@ -40,23 +40,87 @@ const DISH_IMAGES: Record<string, string> = {
   "Khoai tây chiên": imgKhoaiTayChien,
 };
 
-const MENU_PAGES = [
-  { src: "/menu-pages/page-00.jpg", alt: "Bìa menu - Gà Quê Diên Khánh" },
-  { src: "/menu-pages/page-01.jpg", alt: "Các Món Gà" },
-  { src: "/menu-pages/page-02.jpg", alt: "Lẩu Gà (Lá É)" },
-  { src: "/menu-pages/page-03.jpg", alt: "Lẩu Gà (Lá Giang)" },
-  { src: "/menu-pages/page-04.jpg", alt: "Các Món Bò" },
-  { src: "/menu-pages/page-05.jpg", alt: "Các Món Heo (1)" },
-  { src: "/menu-pages/page-06.jpg", alt: "Các Món Heo (2)" },
-  { src: "/menu-pages/page-07.jpg", alt: "Gỏi & Salad" },
-  { src: "/menu-pages/page-08.jpg", alt: "Các Món Mực (1)" },
-  { src: "/menu-pages/page-09.jpg", alt: "Các Món Mực (2)" },
-  { src: "/menu-pages/page-10.jpg", alt: "Các Món Tôm (1)" },
-  { src: "/menu-pages/page-11.jpg", alt: "Các Món Tôm (2)" },
-  { src: "/menu-pages/page-12.jpg", alt: "Lòng Gà" },
-  { src: "/menu-pages/page-13.jpg", alt: "Cơm & Khoai" },
-  { src: "/menu-pages/page-14.jpg", alt: "Bia & Nước Giải Khát" },
-  { src: "/menu-pages/page-15.jpg", alt: "Thông tin & QR Code" },
+const MENU_PAGES: { src: string; alt: string; caption: Record<Lang, string> }[] = [
+  {
+    src: "/menu-pages/page-00.jpg",
+    alt: "Bìa menu - Gà Quê Diên Khánh",
+    caption: { vi: "Bìa Menu", en: "Menu Cover", ko: "메뉴 표지", zh: "菜单封面", ru: "Обложка меню" },
+  },
+  {
+    src: "/menu-pages/page-01.jpg",
+    alt: "Các Món Gà",
+    caption: { vi: "Các Món Gà", en: "Chicken Dishes", ko: "닭고기 요리", zh: "鸡肉料理", ru: "Блюда из курицы" },
+  },
+  {
+    src: "/menu-pages/page-02.jpg",
+    alt: "Lẩu Gà (Lá É)",
+    caption: { vi: "Lẩu Gà (Lá É)", en: "Chicken Hotpot (Basil)", ko: "닭 샤부샤부 (바질)", zh: "鸡肉火锅（罗勒）", ru: "Куриный фондю (базилик)" },
+  },
+  {
+    src: "/menu-pages/page-03.jpg",
+    alt: "Lẩu Gà (Lá Giang)",
+    caption: { vi: "Lẩu Gà (Lá Giang)", en: "Chicken Hotpot (Roselle)", ko: "닭 샤부샤부 (로젤)", zh: "鸡肉火锅（洛神）", ru: "Куриный фондю (розелла)" },
+  },
+  {
+    src: "/menu-pages/page-04.jpg",
+    alt: "Các Món Bò",
+    caption: { vi: "Các Món Bò", en: "Beef Dishes", ko: "소고기 요리", zh: "牛肉料理", ru: "Блюда из говядины" },
+  },
+  {
+    src: "/menu-pages/page-05.jpg",
+    alt: "Các Món Heo (1)",
+    caption: { vi: "Các Món Heo (1)", en: "Pork Dishes (1)", ko: "돼지고기 요리 (1)", zh: "猪肉料理（1）", ru: "Блюда из свинины (1)" },
+  },
+  {
+    src: "/menu-pages/page-06.jpg",
+    alt: "Các Món Heo (2)",
+    caption: { vi: "Các Món Heo (2)", en: "Pork Dishes (2)", ko: "돼지고기 요리 (2)", zh: "猪肉料理（2）", ru: "Блюда из свинины (2)" },
+  },
+  {
+    src: "/menu-pages/page-07.jpg",
+    alt: "Gỏi & Salad",
+    caption: { vi: "Gỏi & Salad", en: "Salads", ko: "샐러드", zh: "沙拉", ru: "Салаты" },
+  },
+  {
+    src: "/menu-pages/page-08.jpg",
+    alt: "Các Món Mực (1)",
+    caption: { vi: "Các Món Mực (1)", en: "Squid Dishes (1)", ko: "오징어 요리 (1)", zh: "鱿鱼料理（1）", ru: "Блюда из кальмара (1)" },
+  },
+  {
+    src: "/menu-pages/page-09.jpg",
+    alt: "Các Món Mực (2)",
+    caption: { vi: "Các Món Mực (2)", en: "Squid Dishes (2)", ko: "오징어 요리 (2)", zh: "鱿鱼料理（2）", ru: "Блюда из кальмара (2)" },
+  },
+  {
+    src: "/menu-pages/page-10.jpg",
+    alt: "Các Món Tôm (1)",
+    caption: { vi: "Các Món Tôm (1)", en: "Shrimp Dishes (1)", ko: "새우 요리 (1)", zh: "虾类料理（1）", ru: "Блюда из креветок (1)" },
+  },
+  {
+    src: "/menu-pages/page-11.jpg",
+    alt: "Các Món Tôm (2)",
+    caption: { vi: "Các Món Tôm (2)", en: "Shrimp Dishes (2)", ko: "새우 요리 (2)", zh: "虾类料理（2）", ru: "Блюда из креветок (2)" },
+  },
+  {
+    src: "/menu-pages/page-12.jpg",
+    alt: "Lòng Gà",
+    caption: { vi: "Lòng Gà", en: "Chicken Offal", ko: "닭 내장 요리", zh: "鸡杂料理", ru: "Блюда из потрохов" },
+  },
+  {
+    src: "/menu-pages/page-13.jpg",
+    alt: "Cơm & Khoai",
+    caption: { vi: "Cơm & Khoai", en: "Rice & Fries", ko: "밥 & 튀김", zh: "炒饭 & 薯条", ru: "Рис & Картофель" },
+  },
+  {
+    src: "/menu-pages/page-14.jpg",
+    alt: "Bia & Nước Giải Khát",
+    caption: { vi: "Bia & Nước Uống", en: "Beer & Drinks", ko: "맥주 & 음료", zh: "啤酒 & 饮料", ru: "Пиво & Напитки" },
+  },
+  {
+    src: "/menu-pages/page-15.jpg",
+    alt: "Thông tin & QR Code",
+    caption: { vi: "Thông Tin & QR", en: "Info & QR Code", ko: "정보 & QR 코드", zh: "信息 & 二维码", ru: "Информация & QR" },
+  },
 ];
 
 const fadeIn = {
@@ -268,14 +332,19 @@ export default function Menu() {
                   variants={fadeIn}
                   type="button"
                   onClick={() => setLightbox({ src: page.src, alt: page.alt })}
-                  className="group cursor-zoom-in overflow-hidden rounded-sm border border-border/40 bg-background hover:border-primary/60 hover:shadow-lg transition-all duration-200"
+                  className="group cursor-zoom-in rounded-sm border border-border/40 bg-background hover:border-primary/60 hover:shadow-lg transition-all duration-200 flex flex-col"
                 >
-                  <img
-                    src={page.src}
-                    alt={page.alt}
-                    loading="lazy"
-                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div className="overflow-hidden">
+                    <img
+                      src={page.src}
+                      alt={page.alt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="text-xs text-center py-1.5 px-2 text-muted-foreground font-medium leading-tight">
+                    {page.caption[lang]}
+                  </p>
                 </motion.button>
               ))}
             </motion.div>
