@@ -40,6 +40,25 @@ const DISH_IMAGES: Record<string, string> = {
   "Khoai tây chiên": imgKhoaiTayChien,
 };
 
+const MENU_PAGES = [
+  { src: "/menu-pages/page-00.jpg", alt: "Bìa menu - Gà Quê Diên Khánh" },
+  { src: "/menu-pages/page-01.jpg", alt: "Các Món Gà" },
+  { src: "/menu-pages/page-02.jpg", alt: "Lẩu Gà (Lá É)" },
+  { src: "/menu-pages/page-03.jpg", alt: "Lẩu Gà (Lá Giang)" },
+  { src: "/menu-pages/page-04.jpg", alt: "Các Món Bò" },
+  { src: "/menu-pages/page-05.jpg", alt: "Các Món Heo (1)" },
+  { src: "/menu-pages/page-06.jpg", alt: "Các Món Heo (2)" },
+  { src: "/menu-pages/page-07.jpg", alt: "Gỏi & Salad" },
+  { src: "/menu-pages/page-08.jpg", alt: "Các Món Mực (1)" },
+  { src: "/menu-pages/page-09.jpg", alt: "Các Món Mực (2)" },
+  { src: "/menu-pages/page-10.jpg", alt: "Các Món Tôm (1)" },
+  { src: "/menu-pages/page-11.jpg", alt: "Các Món Tôm (2)" },
+  { src: "/menu-pages/page-12.jpg", alt: "Lòng Gà" },
+  { src: "/menu-pages/page-13.jpg", alt: "Cơm & Khoai" },
+  { src: "/menu-pages/page-14.jpg", alt: "Bia & Nước Giải Khát" },
+  { src: "/menu-pages/page-15.jpg", alt: "Thông tin & QR Code" },
+];
+
 const fadeIn = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
@@ -55,6 +74,7 @@ const LABELS: Record<Lang, {
   squid: string; shrimp: string; offal: string;
   sides: string; rice: string; drinks: string;
   half: string; whole: string; perPlate: string; note: string;
+  tabDigital: string; tabPhotos: string;
 }> = {
   vi: {
     breadcrumb: "Thực Đơn",
@@ -74,6 +94,7 @@ const LABELS: Record<Lang, {
     whole: "Nguyên con",
     perPlate: "đĩa",
     note: "Giá đã bao gồm thuế. Vui lòng thông báo nhân viên nếu có yêu cầu đặc biệt về dị ứng thực phẩm.",
+    tabDigital: "Thực Đơn", tabPhotos: "Ảnh Menu In",
   },
   en: {
     breadcrumb: "Menu",
@@ -93,6 +114,7 @@ const LABELS: Record<Lang, {
     whole: "Whole",
     perPlate: "plate",
     note: "Prices include tax. Please inform staff of any food allergies or special dietary requirements.",
+    tabDigital: "Digital Menu", tabPhotos: "Menu Photos",
   },
   ko: {
     breadcrumb: "메뉴",
@@ -112,6 +134,7 @@ const LABELS: Record<Lang, {
     whole: "한 마리",
     perPlate: "접시",
     note: "가격에는 세금이 포함되어 있습니다. 음식 알레르기나 특별한 식이 요건이 있으시면 직원에게 알려주세요.",
+    tabDigital: "디지털 메뉴", tabPhotos: "메뉴 사진",
   },
   zh: {
     breadcrumb: "菜单",
@@ -131,6 +154,7 @@ const LABELS: Record<Lang, {
     whole: "整只",
     perPlate: "盘",
     note: "价格含税。如有食物过敏或特殊饮食要求，请通知工作人员。",
+    tabDigital: "数字菜单", tabPhotos: "菜单图片",
   },
   ru: {
     breadcrumb: "Меню",
@@ -150,6 +174,7 @@ const LABELS: Record<Lang, {
     whole: "Целая",
     perPlate: "порция",
     note: "Цены включают налог. Пожалуйста, сообщите персоналу о пищевых аллергиях или особых пожеланиях.",
+    tabDigital: "Цифровое меню", tabPhotos: "Фото меню",
   },
 };
 
@@ -181,6 +206,7 @@ export default function Menu() {
 
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
   const closeLightbox = useCallback(() => setLightbox(null), []);
+  const [menuView, setMenuView] = useState<"digital" | "photos">("digital");
 
   useEffect(() => {
     if (!lightbox) return;
@@ -208,6 +234,54 @@ export default function Menu() {
       {/* Menu body */}
       <section className="py-16 md:py-24 bg-[#F6F4ED]">
         <div className="container mx-auto px-6 md:px-12">
+
+          {/* View tab switcher */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex bg-background rounded-full border border-border/60 p-1 gap-1 shadow-sm">
+              <button
+                onClick={() => setMenuView("digital")}
+                className={`px-5 py-2.5 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-2 ${menuView === "digital" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                <span>📋</span> {tx.tabDigital}
+              </button>
+              <button
+                onClick={() => setMenuView("photos")}
+                className={`px-5 py-2.5 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-2 ${menuView === "photos" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                <span>📷</span> {tx.tabPhotos}
+              </button>
+            </div>
+          </div>
+
+          {/* Photo menu gallery */}
+          {menuView === "photos" && (
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={stagger}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 pb-8"
+            >
+              {MENU_PAGES.map((page, i) => (
+                <motion.button
+                  key={i}
+                  variants={fadeIn}
+                  type="button"
+                  onClick={() => setLightbox({ src: page.src, alt: page.alt })}
+                  className="group cursor-zoom-in overflow-hidden rounded-sm border border-border/40 bg-background hover:border-primary/60 hover:shadow-lg transition-all duration-200"
+                >
+                  <img
+                    src={page.src}
+                    alt={page.alt}
+                    loading="lazy"
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
+
+          {menuView === "digital" && (
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
             {/* Left: food items */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="lg:w-[58%] space-y-12">
@@ -474,6 +548,7 @@ export default function Menu() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </section>
 
