@@ -289,9 +289,12 @@ export default function Menu() {
                   {menuItems.beef.map((item, i) => (
                     <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-beef-${i}`}>
                       <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
-                        <div>
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-medium text-foreground">{item[lang]}</span>
-                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic">({item.vi})</span>}
+                          {item.isBestSeller && (
+                            <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap">Best</span>
+                          )}
                         </div>
                         <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}/{tx.perPlate}</span>
                       </div>
@@ -307,9 +310,12 @@ export default function Menu() {
                   {menuItems.pork.map((item, i) => (
                     <div key={i} className="flex items-center gap-0 hover:bg-muted/30 transition-colors" data-testid={`menu-pork-${i}`}>
                       <div className="flex items-center justify-between flex-1 px-5 py-4 min-w-0">
-                        <div>
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-medium text-foreground">{item[lang]}</span>
-                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic ml-2">({item.vi})</span>}
+                          {lang !== "vi" && <span className="text-xs text-muted-foreground italic">({item.vi})</span>}
+                          {item.isBestSeller && (
+                            <span className="text-xs bg-accent/15 text-accent px-2 py-0.5 rounded-sm font-medium whitespace-nowrap">Best</span>
+                          )}
                         </div>
                         <span className="font-semibold text-primary text-base ml-4 whitespace-nowrap">{fmt(item.price)}/{tx.perPlate}</span>
                       </div>
